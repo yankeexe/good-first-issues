@@ -137,26 +137,67 @@ html_template = """
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Secular+One&display=swap"
+      rel="stylesheet"
+    />
     <style>
+      body {{
+        background-color: #afd0a9;
+        font-family: "Roboto", sans-serif;
+      }}
+
+      h1 {{
+        text-align: center;
+        font-size: 42px;
+        font-family: "Secular One", sans-serif;
+        color: white;
+      }}
+
       table {{
-        border-collapse: collapse;
-        width: 100%;
-        font-family: sans-serif;
+        border-spacing: 0px;
+        width: 80%;
+        margin: auto;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 5px 5px 10px gray;
       }}
 
       th,
       td {{
         text-align: left;
-        padding: 8px;
+        padding: 12px;
       }}
 
       tr:nth-child(even) {{
         background-color: #f2f2f2;
       }}
 
+      tr:nth-child(odd) {{
+        background-color: white;
+      }}
+
+      tr:hover {{
+        background-color: #c0c0c0;
+      }}
+
       th {{
-        background-color: #009879;
+        background-color: #006e58;
         color: white;
+        font-size: 18px;
+        font-weight: 900;
+      }}
+
+      a {{
+        color: #006e58;
+      }}
+
+      a:hover {{
+        color: black;
       }}
     </style>
     <title>Good First Issues</title>
