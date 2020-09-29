@@ -94,6 +94,8 @@ gfi gql "rust-lang" --all
 
 **Viewing issues on browser**
 
+<img src="https://i.imgur.com/V68FwIF.png" width="800" />
+
 It's hard to navigate through all the issues when you have the `--all` flag enabled, you can view the issues on your browser with ease using the `--web` flag.
 
 ```bash
