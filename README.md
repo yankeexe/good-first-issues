@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.imgur.com/vTgsBoQ.png" width="100" alt="Known Vulnerabilities"/></a>
+  <img src="https://i.imgur.com/vTgsBoQ.png" width="100" alt="Good First Issues"/></a>
 </p>
 
 <h1 align="center"><strong> Good First Issues</strong> </h1>
