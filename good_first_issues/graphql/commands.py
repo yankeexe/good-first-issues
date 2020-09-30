@@ -6,8 +6,8 @@ from halo import Halo
 from tabulate import tabulate
 from rich.console import Console
 
-from gfi import utils
-from gfi.graphql import services
+from good_first_issues import utils
+from good_first_issues.graphql import services
 
 
 console = Console(color_system="auto")

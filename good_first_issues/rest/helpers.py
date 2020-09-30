@@ -10,7 +10,7 @@ console = Console(color_system="auto")
 headers: List = ["title", "html_url"]
 
 
-def unit_repo_issue_extract(issues: List) -> Union[List, bool]:
+def unit_repo_issue_extract(issues: List, limiter: int) -> Union[List, bool]:
     """
     Extract issues from unit or individual repos.
     """
@@ -21,6 +21,10 @@ def unit_repo_issue_extract(issues: List) -> Union[List, bool]:
 
     # Parse issue data
     for issue in issues:
+        # Limit the output
+        if len(data_store) >= limiter:
+            break
+
         store = [issue.get(col) for col in headers]
         data_store.append(store)
 

@@ -19,7 +19,7 @@ from rich.console import Console
 from requests.models import Response
 from requests.adapters import HTTPAdapter
 
-from gfi.graphql.queries import org_query, repo_query, user_query
+from good_first_issues.graphql.queries import org_query, repo_query, user_query
 
 
 # Initializations
