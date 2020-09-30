@@ -96,7 +96,7 @@ def web_server(html_data):
     """
     Start web server for obtained issues.
     """
-    PORT = 8000
+    PORT = find_free_port()
     Handler = http.server.SimpleHTTPRequestHandler
     filename = "index.html"
 
