@@ -23,7 +23,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     install_requires=requirements,
     extras_require={"dev": requirements_dev},
-    entry_points={"console_scripts": ["gfi = good-first-issues.main:cli"]},
+    entry_points={"console_scripts": ["gfi = good_first_issues.main:cli"]},
     classifiers=[
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",

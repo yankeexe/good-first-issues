@@ -8,7 +8,7 @@ from halo import Halo
 from rich.console import Console
 from requests.models import Response
 
-from gfi.rest import helpers
+from good_first_issues.rest import helpers
 
 
 # Initializations
@@ -24,7 +24,7 @@ UnitOwnerRepo = Tuple[Union[List, bool], Optional[str]]
 OwnerRepos = Tuple[Union[List[str], bool], Optional[str]]
 
 
-def unit_owner_repo(name, repo, token) -> UnitOwnerRepo:
+def unit_owner_repo(name, repo, token, limiter) -> UnitOwnerRepo:
     """
     Handles request for a single organization/user repository.
     Has no limits since it fetches data from a single repo,
@@ -50,7 +50,7 @@ def unit_owner_repo(name, repo, token) -> UnitOwnerRepo:
         "X-RateLimit-Remaining"
     )
 
-    return helpers.unit_repo_issue_extract(issues), rate_limit
+    return helpers.unit_repo_issue_extract(issues, limiter), rate_limit
 
 
 def owner_repos(name: str, token: str, limiter: Optional[int]) -> OwnerRepos:

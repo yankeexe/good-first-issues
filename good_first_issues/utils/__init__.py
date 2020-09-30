@@ -8,8 +8,10 @@ from pathlib import Path
 from typing import Dict, Union, Optional
 
 import requests
-from gfi.graphql import services
-from gfi.graphql.queries import rate_limit_query
+from halo import Halo
+
+from good_first_issues.graphql import services
+from good_first_issues.graphql.queries import rate_limit_query
 
 
 # Global variables
@@ -53,6 +55,10 @@ def rate_limit() -> int:
     """
     request_headers: Dict = dict()
 
+    # Spinner
+    spinner = Halo(text="Getting rate limit...", spinner="dots")
+    spinner.start()
+
     # Check if the token is available.
     token: Union[str, bool] = check_credential()
 
@@ -64,6 +70,8 @@ def rate_limit() -> int:
     )
     data: Dict = response.json()
 
+    spinner.succeed("rate limit")
+
     return data["resources"].get("core").get("remaining")
 
 
@@ -72,7 +80,14 @@ def gql_rate_limit() -> int:
     Fetch rate_limit for GraphQL API.
     """
     token: Union[str, bool] = check_credential()
+
+    # Spinner
+    spinner = Halo(text="Getting rate limit...", spinner="dots")
+    spinner.start()
+
     payload: Dict = services.caller(token, rate_limit_query, {})
+
+    spinner.succeed("rate limit")
 
     return payload["data"].get("rateLimit").get("remaining")
 
@@ -105,7 +120,7 @@ def web_server(html_data):
 
         socketserver.TCPServer.allow_reuse_address = True
 
-        with socketserver.TCPServer(("", PORT), Handler) as httpd:
+        with socketserver.TCPServer(("localhost", PORT), Handler) as httpd:
             print("serving at port", PORT)
             httpd.serve_forever()
 

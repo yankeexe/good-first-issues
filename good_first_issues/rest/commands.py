@@ -5,8 +5,8 @@ import click
 from tabulate import tabulate
 from rich.console import Console
 
-from gfi import utils
-from gfi.rest import helpers, services
+from good_first_issues import utils
+from good_first_issues.rest import helpers, services
 
 
 console = Console(color_system="auto")
