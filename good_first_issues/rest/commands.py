@@ -1,40 +1,15 @@
 """ REST API mode commands. """
 from typing import Union, Optional, List
 
-import click
+from cliche import cli
 from tabulate import tabulate
-from rich.console import Console
 
 from good_first_issues import utils
 from good_first_issues.rest import helpers, services
 
 
-console = Console(color_system="auto")
-
-
-@click.command()
-@click.option(
-    "--repo",
-    help="Search in a specific repo of user or organization",
-    type=str,
-)
-@click.option(
-    "--limit",
-    help="Limit the number of issues to display. Defaults to 10",
-    type=int,
-)
-@click.option(
-    "--web",
-    help="Display issues on browser",
-    is_flag=True,
-)
-@click.option(
-    "--all",
-    help="View all the issues found without limits",
-    is_flag=True,
-)
-@click.argument("name")
-def get(name: str, repo: str, limit: int, all: bool, web: bool):
+@cli
+def get(name: str, repo: str, limit: int = 10, all: bool = False, web: bool = False):
     """
     Sub-command for REST API mode
     """
@@ -45,37 +20,20 @@ def get(name: str, repo: str, limit: int, all: bool, web: bool):
     if not repo:
         issues, rate_limit = services.owner_repos(name, token, limiter)
     else:
-        issues, rate_limit = services.unit_owner_repo(
-            name, repo, token, limiter
-        )
+        issues, rate_limit = services.unit_owner_repo(name, repo, token, limiter)
 
     # Handle empty issues.
     if not issues:
-        console.print(
-            f"Remaining requests:dash:: {rate_limit}",
-            style="bold green",
-        )
+        print(f"Remaining requests {rate_limit}",)
 
-        return console.print(
-            "No good first issues found!:mask:",
-            style="bold red",
-        )
+        return print("No good first issues found!")
 
     # Handle displaying issues on browser.
     if web:
         html_data = tabulate(issues, table_headers, tablefmt="html")
         return utils.web_server(html_data)
 
-    print(
-        tabulate(
-            issues,
-            table_headers,
-            tablefmt="fancy_grid",
-            showindex=True,
-        )
-    )
+    print(tabulate(issues, table_headers, tablefmt="fancy_grid", showindex=True))
 
-    console.print(
-        f"Remaining requests:dash:: {rate_limit}", style="bold green"
-    )
-    console.print("Happy Hacking :tada::zap::rocket:", style="bold blue")
+    print(f"Remaining requests {rate_limit}")
+    print("Happy Hacking")

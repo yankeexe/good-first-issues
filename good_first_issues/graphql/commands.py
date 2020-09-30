@@ -1,7 +1,7 @@
 """ GraphQL mode commands. """
 from typing import List, Optional, Union, Iterable
 
-import click
+from cliche import cli
 from halo import Halo
 from tabulate import tabulate
 from rich.console import Console
@@ -10,38 +10,8 @@ from good_first_issues import utils
 from good_first_issues.graphql import services
 
 
-console = Console(color_system="auto")
-
-
-@click.command()
-@click.option(
-    "--repo",
-    help="Search in a specific repo of user or organization",
-    type=str,
-)
-@click.option(
-    "--limit",
-    help="Limit the number of issues to display. Defaults to 10",
-    type=int,
-)
-@click.option(
-    "--user",
-    "-u",
-    help="Specify if it's a user repository",
-    is_flag=True,
-)
-@click.option(
-    "--web",
-    help="Display issues on browser",
-    is_flag=True,
-)
-@click.option(
-    "--all",
-    help="View all the issues found without limits.",
-    is_flag=True,
-)
-@click.argument("name")
-def gql(name: str, repo: str, user: bool, web: bool, limit: int, all: bool):
+@cli
+def gql(name: str, repo: str, limit: int = 10, all: bool = False, web: bool = False):
     """
     Sub-command for GraphQL mode.
     """
@@ -74,15 +44,9 @@ def gql(name: str, repo: str, user: bool, web: bool, limit: int, all: bool):
 
     # No good first issues found.
     if not issues:
-        console.print(
-            f"Remaining requests:dash:: {rate_limit}",
-            style="bold green",
-        )
+        print(f"Remaining requests:dash:: {rate_limit}")
 
-        return console.print(
-            "No good first issues found!:mask:",
-            style="bold red",
-        )
+        return print("No good first issues found!:mask:")
     # Handle limiting the output displayed.
     limiter = utils.identify_limit(limit, all)
 
@@ -91,16 +55,7 @@ def gql(name: str, repo: str, user: bool, web: bool, limit: int, all: bool):
         html_data = tabulate(issues[:limiter], table_headers, tablefmt="html")
         return utils.web_server(html_data)
 
-    print(
-        tabulate(
-            issues[:limiter],
-            table_headers,
-            tablefmt="fancy_grid",
-            showindex=True,
-        )
-    )
+    print(tabulate(issues[:limiter], table_headers, tablefmt="fancy_grid", showindex=True,))
 
-    console.print(
-        f"Remaining requests:dash:: {rate_limit}", style="bold green"
-    )
-    console.print("Happy Hacking :tada::zap::rocket:", style="bold blue")
+    print(f"Remaining requests:dash:: {rate_limit}")
+    print("Happy Hacking :tada::zap::rocket:")
