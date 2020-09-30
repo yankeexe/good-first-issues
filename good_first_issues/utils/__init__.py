@@ -2,12 +2,14 @@
 import re
 import os
 import shutil
+import getpass
 import http.server
 import socketserver
 from pathlib import Path
 from typing import Dict, Union, Optional
 
 import requests
+from cliche import cli
 from halo import Halo
 
 from good_first_issues.graphql import services
@@ -49,7 +51,7 @@ def check_credential() -> Union[str, bool]:
     return False
 
 
-def rate_limit() -> int:
+def gh_rate_limit() -> int:
     """
     Fetch rate_limit for GitHub REST API.
     """
@@ -65,9 +67,7 @@ def rate_limit() -> int:
     if token:
         request_headers["Authorization"] = f"token {token}"
 
-    response = requests.get(
-        "https://api.github.com/rate_limit", headers=request_headers
-    )
+    response = requests.get("https://api.github.com/rate_limit", headers=request_headers)
     data: Dict = response.json()
 
     spinner.succeed("rate limit")
@@ -90,6 +90,30 @@ def gql_rate_limit() -> int:
     spinner.succeed("rate limit")
 
     return payload["data"].get("rateLimit").get("remaining")
+
+
+@cli
+def rate_limit(gql=True):
+    """
+    Display GitHub API rate limit.
+    :param gql: Rate limit for GraphQL API.
+    """
+    if gql:
+        rate_limit = gql_rate_limit()
+    else:
+        rate_limit = gh_rate_limit()
+
+    print(f"Remaining requests {rate_limit}")
+
+
+@cli
+def config():
+    """
+    Prompt user to enter Github Personal Access Token.
+    """
+    token: str = getpass.getpass("Enter your GitHub Access Token (hidden): ")
+
+    add_credential(token)
 
 
 def identify_limit(limit: Optional[int], all: bool) -> Optional[int]:
