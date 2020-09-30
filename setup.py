@@ -23,12 +23,13 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     install_requires=requirements,
     extras_require={"dev": requirements_dev},
-    entry_points={"console_scripts": ["gfi = gfi.main:cli"]},
+    entry_points={"console_scripts": ["gfi = good-first-issues.main:cli"]},
     classifiers=[
         "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
-        "Operating System :: POSIX :: Linux",
-        "Development Status :: 1 - Planning",
+        "Operating System :: POSIX :: Independent",
+        "Development Status :: 4 - Beta",
         "License :: OSI Approved :: MIT License",
     ],
 )
