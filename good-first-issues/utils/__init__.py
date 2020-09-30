@@ -6,6 +6,9 @@ import http.server
 import socketserver
 from pathlib import Path
 from typing import Dict, Union, Optional
+import socket
+from contextlib import closing
+import webbrowser
 
 import requests
 from gfi.graphql import services
@@ -107,12 +110,23 @@ def web_server(html_data):
 
         with socketserver.TCPServer(("", PORT), Handler) as httpd:
             print("serving at port", PORT)
+            webbrowser.open(f"http://127.0.0.1:{PORT}")
             httpd.serve_forever()
 
     except KeyboardInterrupt:
         print("\nServer stopped")
     finally:
         os.remove(filename)
+
+
+def find_free_port():
+    """
+    Find free port.
+    """
+    with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
+        s.bind(("", 0))
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        return s.getsockname()[1]
 
 
 def add_anchor_tag(html_data):
