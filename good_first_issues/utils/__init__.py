@@ -109,7 +109,6 @@ def get_row_ids(issue_count, limiter):
     Generate custom Row Index Column for the table
     Returns a Iterable.
     """
-    rowIDs = []
     if limiter is None:
         return [i for i in range(1, issue_count + 1)]
     return [i for i in range(1, limiter + 1)]

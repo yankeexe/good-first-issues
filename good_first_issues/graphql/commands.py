@@ -92,13 +92,13 @@ def gql(name: str, repo: str, user: bool, web: bool, limit: int, all: bool):
         return utils.web_server(html_data)
 
     issue_count = len(issues)
-    rowIDs = utils.get_row_ids(issue_count, limiter)
+    row_ids = utils.get_row_ids(issue_count, limiter)
     print(
         tabulate(
             issues[:limiter],
             table_headers,
             tablefmt="fancy_grid",
-            showindex=rowIDs,
+            showindex=row_ids,
         )
     )
 
