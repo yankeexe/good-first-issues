@@ -91,8 +91,8 @@ def gql(name: str, repo: str, user: bool, web: bool, limit: int, all: bool):
         html_data = tabulate(issues[:limiter], table_headers, tablefmt="html")
         return utils.web_server(html_data)
 
-    issue_count = len(issues)
-    row_ids = utils.get_row_ids(issue_count, limiter)
+    issue_count: int = len(issues)
+    row_ids: List[int] = utils.get_row_ids(issue_count, limiter)
     print(
         tabulate(
             issues[:limiter],
