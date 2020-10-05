@@ -7,7 +7,6 @@ import socketserver
 from pathlib import Path
 from typing import Dict, Union, Optional
 import socket
-from contextlib import closing
 import webbrowser
 
 import requests
@@ -111,7 +110,6 @@ def web_server(html_data):
     """
     Start web server for obtained issues.
     """
-    PORT = find_free_port()
     Handler = http.server.SimpleHTTPRequestHandler
     filename = "index.html"
 
@@ -123,25 +121,16 @@ def web_server(html_data):
 
         socketserver.TCPServer.allow_reuse_address = True
 
-        with socketserver.TCPServer(("localhost", PORT), Handler) as httpd:
-            print("serving at port", PORT)
-            webbrowser.open(f"http://127.0.0.1:{PORT}/")
+        with socketserver.TCPServer(("localhost", 0), Handler) as httpd:
+            port = httpd.server_address[1]
+            print("serving at port", port)
+            webbrowser.open(f"http://127.0.0.1:{port}/")
             httpd.serve_forever()
 
     except KeyboardInterrupt:
         print("\nServer stopped")
     finally:
         os.remove(filename)
-
-
-def find_free_port():
-    """
-    Find free port.
-    """
-    with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
-        s.bind(("", 0))
-        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        return s.getsockname()[1]
 
 
 def add_anchor_tag(html_data):
@@ -174,6 +163,7 @@ html_template = """
       href="https://fonts.googleapis.com/css2?family=Secular+One&display=swap"
       rel="stylesheet"
     />
+    <link rel="icon" href="data:,">
     <style>
       body {{
         background-color: #afd0a9;
