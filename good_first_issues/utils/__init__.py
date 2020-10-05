@@ -2,6 +2,7 @@
 import re
 import os
 import shutil
+import webbrowser
 import http.server
 import socketserver
 from pathlib import Path
@@ -108,7 +109,6 @@ def web_server(html_data):
     """
     Start web server for obtained issues.
     """
-    PORT = 8000
     Handler = http.server.SimpleHTTPRequestHandler
     filename = "index.html"
 
@@ -120,8 +120,10 @@ def web_server(html_data):
 
         socketserver.TCPServer.allow_reuse_address = True
 
-        with socketserver.TCPServer(("localhost", PORT), Handler) as httpd:
-            print("serving at port", PORT)
+        with socketserver.TCPServer(("localhost", 0), Handler) as httpd:
+            port = httpd.server_address[1]
+            print("serving at port", port)
+            webbrowser.open(f"http://127.0.0.1:{port}/")
             httpd.serve_forever()
 
     except KeyboardInterrupt:
@@ -160,6 +162,7 @@ html_template = """
       href="https://fonts.googleapis.com/css2?family=Secular+One&display=swap"
       rel="stylesheet"
     />
+    <link rel="icon" href="data:,">
     <style>
       body {{
         background-color: #afd0a9;
