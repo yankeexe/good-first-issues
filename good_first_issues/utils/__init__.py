@@ -2,12 +2,11 @@
 import re
 import os
 import shutil
+import webbrowser
 import http.server
 import socketserver
 from pathlib import Path
 from typing import Dict, Union, Optional
-import socket
-import webbrowser
 
 import requests
 from halo import Halo
