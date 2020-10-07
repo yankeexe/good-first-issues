@@ -66,12 +66,14 @@ def get(name: str, repo: str, limit: int, all: bool, web: bool):
         html_data = tabulate(issues, table_headers, tablefmt="html")
         return utils.web_server(html_data)
 
+    issue_count: int = len(issues)
+    row_ids: List[int] = utils.get_row_ids(issue_count, limiter)
     print(
         tabulate(
             issues,
             table_headers,
             tablefmt="fancy_grid",
-            showindex=True,
+            showindex=row_ids,
         )
     )
 

@@ -6,7 +6,7 @@ import webbrowser
 import http.server
 import socketserver
 from pathlib import Path
-from typing import Dict, Union, Optional
+from typing import Dict, Union, Optional, List
 
 import requests
 from halo import Halo
@@ -103,6 +103,18 @@ def identify_limit(limit: Optional[int], all: bool) -> Optional[int]:
         return None
     else:
         return 10
+
+
+def get_row_ids(issue_count: int, limiter: Optional[int]) -> List[int]:
+    """
+    Generate custom Row Index Column for the table.
+    Returns a Iterable.
+    """
+
+    # Check limit is None or greater than total issues fetched
+    if limiter is None or issue_count < limiter:
+        return [i for i in range(1, issue_count + 1)]
+    return [i for i in range(1, limiter + 1)]
 
 
 def web_server(html_data):
