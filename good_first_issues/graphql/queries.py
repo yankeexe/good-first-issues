@@ -69,6 +69,31 @@ query getIssues($name: String!, $owner: String!) {
 }
 """
 
+search_query: str = """
+query search($queryString: String!){
+  search(type: REPOSITORY, query: $queryString, first: 50) {
+    edges {
+      node {
+        ... on Repository {
+          url
+          issues(filterBy: { states: OPEN, labels: "good first issue" }, first: 100) {
+            edges {
+            node {
+                  title
+                  url
+                }
+              }
+          }
+        }
+      }
+    }
+  }
+  rateLimit {
+      remaining
+    }
+}
+"""
+
 rate_limit_query: str = """
 {
   rateLimit {

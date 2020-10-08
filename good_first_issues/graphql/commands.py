@@ -20,6 +20,11 @@ console = Console(color_system="auto")
     type=str,
 )
 @click.option(
+    "--hacktoberfest",
+    help="Search repositories with topic hacktoberfest",
+    is_flag=True,
+)
+@click.option(
     "--limit",
     help="Limit the number of issues to display. Defaults to 10",
     type=int,
@@ -40,11 +45,16 @@ console = Console(color_system="auto")
     help="View all the issues found without limits.",
     is_flag=True,
 )
-@click.argument("name")
-def gql(name: str, repo: str, user: bool, web: bool, limit: int, all: bool):
+@click.argument("name",required=False)
+def gql(name: str, repo: str, user: bool, web: bool, limit: int, all: bool, hacktoberfest: bool):
     """
     Sub-command for GraphQL mode.
     """
+
+    if name is None and hacktoberfest is False:
+        click.echo("Missing Argument NAME")
+        raise click.Abort()
+
     issues: Optional[Iterable] = None
     rate_limit: int = 0
 
@@ -52,7 +62,7 @@ def gql(name: str, repo: str, user: bool, web: bool, limit: int, all: bool):
     token: Union[str, bool] = utils.check_credential()
 
     # Identify the flags passed.
-    query, variables, mode = services.identify_mode(name, repo, user)
+    query, variables, mode = services.identify_mode(name, repo, user, hacktoberfest)
 
     # Spinner
     spinner = Halo(text="Fetching repos...", spinner="dots")
@@ -69,6 +79,9 @@ def gql(name: str, repo: str, user: bool, web: bool, limit: int, all: bool):
 
     if mode == "repo":
         issues, rate_limit = services.extract_repo_issues(response)
+
+    if mode == "search":
+        issues, rate_limit = services.extract_search_results(response)
 
     table_headers: List = ["Title", "Issue URL"]
 

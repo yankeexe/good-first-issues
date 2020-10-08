@@ -19,7 +19,7 @@ from rich.console import Console
 from requests.models import Response
 from requests.adapters import HTTPAdapter
 
-from good_first_issues.graphql.queries import org_query, repo_query, user_query
+from good_first_issues.graphql.queries import org_query, repo_query, user_query, search_query
 
 
 # Initializations
@@ -111,8 +111,28 @@ def extract_repo_issues(
 
     return issues, rate_limit
 
+def extract_search_results(payload: Dict) -> Tuple[Iterable, int]:
+    """
+    Extract issues based on search query.
+    """
+    # Get the edges connecting to all the repositories.
+    base_data: List = (
+        payload["data"].get("search").get("edges")
+    )
 
-def identify_mode(name: str, repo: str, user: bool) -> Tuple[str, Dict, str]:
+    # Extract rate limit value.
+    rate_limit: int = payload["data"].get("rateLimit").get("remaining")
+
+    spinner.start()
+
+    # Generator pipeline: Extract issue title and url.
+    pipeline: Iterable = get_issues(get_base_issues(base_data))
+
+    spinner.succeed("Search Complete.")
+
+    return list(pipeline), rate_limit
+
+def identify_mode(name: str, repo: str, user: bool, hacktoberfest: bool) -> Tuple[str, Dict, str]:
     """
     Identify the mode based on arguments passed.
 
@@ -141,6 +161,13 @@ def identify_mode(name: str, repo: str, user: bool) -> Tuple[str, Dict, str]:
         query = org_query
         variables["name"] = name
         mode = "org"
+
+    if hacktoberfest and not repo:
+        query = search_query
+        variables["queryString"] = 'topic:hacktoberfest '
+        if name:
+            variables["queryString"]+=f'user:{name}'
+        mode="search"
 
     return query, variables, mode
 
