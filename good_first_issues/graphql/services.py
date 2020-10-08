@@ -170,7 +170,7 @@ def identify_mode(name: str, repo: str, user: bool, hacktoberfest: bool) -> Tupl
         mode="search"
 
     if repo and hacktoberfest:
-        spinner.fail("--hacktoberfest cannot be used with --repo flag")
+        spinner.fail("--hacktoberfest or --hf cannot be used with --repo flag")
 
     return query, variables, mode
 
