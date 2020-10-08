@@ -169,6 +169,9 @@ def identify_mode(name: str, repo: str, user: bool, hacktoberfest: bool) -> Tupl
             variables["queryString"]+=f'user:{name}'
         mode="search"
 
+    if repo and hacktoberfest:
+        spinner.fail("--hacktoberfest cannot be used with --repo flag")
+
     return query, variables, mode
 
 
