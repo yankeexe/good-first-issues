@@ -154,7 +154,7 @@ def add_anchor_tag(html_data):
 
     for item in matches:
         url = f"<td><a target='_blank' href='{item}'>{item}</a></td>"
-        html_data = re.sub(pattern, url, html_data)
+        html_data = re.sub(pattern, url, html_data, 1)
 
     return html_data
 
