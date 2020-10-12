@@ -19,7 +19,12 @@ from rich.console import Console
 from requests.models import Response
 from requests.adapters import HTTPAdapter
 
-from good_first_issues.graphql.queries import org_query, repo_query, user_query, search_query
+from good_first_issues.graphql.queries import (
+    org_query,
+    repo_query,
+    user_query,
+    search_query,
+)
 
 
 # Initializations
@@ -111,14 +116,13 @@ def extract_repo_issues(
 
     return issues, rate_limit
 
+
 def extract_search_results(payload: Dict) -> Tuple[Iterable, int]:
     """
     Extract issues based on search query.
     """
     # Get the edges connecting to all the repositories.
-    base_data: List = (
-        payload["data"].get("search").get("edges")
-    )
+    base_data: List = payload["data"].get("search").get("edges")
 
     # Extract rate limit value.
     rate_limit: int = payload["data"].get("rateLimit").get("remaining")
@@ -132,7 +136,10 @@ def extract_search_results(payload: Dict) -> Tuple[Iterable, int]:
 
     return list(pipeline), rate_limit
 
-def identify_mode(name: str, repo: str, user: bool, hacktoberfest: bool) -> Tuple[str, Dict, str]:
+
+def identify_mode(
+    name: str, repo: str, user: bool, hacktoberfest: bool
+) -> Tuple[str, Dict, str]:
     """
     Identify the mode based on arguments passed.
 
@@ -164,13 +171,16 @@ def identify_mode(name: str, repo: str, user: bool, hacktoberfest: bool) -> Tupl
 
     if hacktoberfest and not repo:
         query = search_query
-        variables["queryString"] = 'topic:hacktoberfest '
+        variables["queryString"] = "topic:hacktoberfest "
         if name:
-            variables["queryString"]+=f'user:{name}'
-        mode="search"
+            variables["queryString"] += f"user:{name}"
+        mode = "search"
 
     if repo and hacktoberfest:
-        console.print("Error: --hacktoberfest or --hf cannot be used with --repo flag", style="bold red")
+        console.print(
+            "Error: --hacktoberfest or --hf cannot be used with --repo flag:x:",
+            style="bold red",
+        )
         sys.exit()
 
     return query, variables, mode
