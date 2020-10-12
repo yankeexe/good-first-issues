@@ -1,4 +1,5 @@
 """ GraphQL mode commands. """
+import sys
 from typing import List, Optional, Union, Iterable
 
 import click
@@ -16,16 +17,19 @@ console = Console(color_system="auto")
 @click.command()
 @click.option(
     "--repo",
+    "-r",
     help="Search in a specific repo of user or organization",
     type=str,
 )
 @click.option(
-    "--hacktoberfest","--hf",
+    "--hacktoberfest",
+    "--hf",
     help="Search repositories with topic hacktoberfest",
     is_flag=True,
 )
 @click.option(
     "--limit",
+    "-l",
     help="Limit the number of issues to display. Defaults to 10",
     type=int,
 )
@@ -42,18 +46,27 @@ console = Console(color_system="auto")
 )
 @click.option(
     "--all",
+    "-a",
     help="View all the issues found without limits.",
     is_flag=True,
 )
-@click.argument("name",required=False)
-def gql(name: str, repo: str, user: bool, web: bool, limit: int, all: bool, hacktoberfest: bool):
+@click.argument("name", required=False)
+def search(
+    name: str,
+    repo: str,
+    user: bool,
+    web: bool,
+    limit: int,
+    all: bool,
+    hacktoberfest: bool,
+):
     """
-    Sub-command for GraphQL mode.
+    Search for good first issue on organization or users.
     """
 
     if name is None and hacktoberfest is False:
-        console.print("Error: Missing Argument NAME", style="bold red")
-        raise click.Abort()
+        utils.print_help_msg(search)
+        sys.exit()
 
     issues: Optional[Iterable] = None
     rate_limit: int = 0
@@ -62,7 +75,9 @@ def gql(name: str, repo: str, user: bool, web: bool, limit: int, all: bool, hack
     token: Union[str, bool] = utils.check_credential()
 
     # Identify the flags passed.
-    query, variables, mode = services.identify_mode(name, repo, user, hacktoberfest)
+    query, variables, mode = services.identify_mode(
+        name, repo, user, hacktoberfest
+    )
 
     # Spinner
     spinner = Halo(text="Fetching repos...", spinner="dots")

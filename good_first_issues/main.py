@@ -1,12 +1,9 @@
 """Entrypoint of the CLI"""
-from typing import List, Optional
-
 import click
 from rich.console import Console
 
 from . import utils
-from .rest.commands import get
-from .graphql.commands import gql
+from .graphql.commands import search
 
 
 console = Console(color_system="auto")
@@ -17,33 +14,24 @@ def cli():
     """
     Get good first issues to start hacking.
 
-    Using REST API:
+    (Requires GitHub Authentication Token)
 
-    $ gfi get ...
-
-    Using GraphQL: (Requires Authentication Token)
-
-    $ gfi gql ...
+    $ gfi search
 
     """
     pass
 
 
 # Add sub-commands for REST API and GraphQL.
-cli.add_command(get)
-cli.add_command(gql)
+cli.add_command(search)
 
 
 @cli.command()
-@click.option("--gql", is_flag=True, help="Rate limit for GraphQL API.")
-def rate_limit(gql: bool):
+def rate_limit():
     """
     Display GitHub API rate limit.
     """
-    if gql:
-        rate_limit = utils.gql_rate_limit()
-    else:
-        rate_limit = utils.rate_limit()
+    rate_limit = utils.gql_rate_limit()
 
     console.print(
         f"Remaining requests:dash:: {rate_limit}", style="bold green"

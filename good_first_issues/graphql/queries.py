@@ -28,11 +28,11 @@ query getIssues($name: String!) {
 user_query: str = """
 query getIssues ($name: String!) {
   user(login: $name) {
-    repositories(first: 100) {
+    repositories(first: 100, ownerAffiliations: OWNER) {
       edges {
         node {
           name
-          issues(first: 100, states: OPEN, labels: "good first issue") {
+          issues(filterBy: {labels: "good first issue", states: OPEN}, first: 100) {
             edges {
               node {
                 title

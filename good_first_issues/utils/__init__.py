@@ -8,11 +8,15 @@ import socketserver
 from pathlib import Path
 from typing import Dict, Union, Optional, List
 
-import requests
+import click
 from halo import Halo
+from rich.console import Console
 
 from good_first_issues.graphql import services
 from good_first_issues.graphql.queries import rate_limit_query
+
+
+console = Console(color_system="auto")
 
 
 # Global variables
@@ -20,6 +24,14 @@ home_dir: str = str(Path.home())
 filename: str = "good-first-issues"
 credential_dir: str = f"{home_dir}/.gfi"
 credential_file: str = f"{credential_dir}/{filename}"
+
+
+def print_help_msg(command):
+    """
+    Prints help message for passed command.
+    """
+    with click.Context(command) as ctx:
+        click.echo(command.get_help(ctx))
 
 
 def add_credential(credential: str):
@@ -33,9 +45,12 @@ def add_credential(credential: str):
     os.mkdir(credential_dir)
 
     with open(f"{credential_file}", "w+") as cred:
-        cred.write(credential)
+        cred.write(credential.strip())
 
-    print(f"Credentials saved to {credential_file}")
+    console.print(
+        f"Credentials saved to [bold blue]{credential_file}[/bold blue]:white_check_mark:",
+        style="bold green",
+    )
 
 
 def check_credential() -> Union[str, bool]:
@@ -48,32 +63,6 @@ def check_credential() -> Union[str, bool]:
             return cred.readline()
 
     return False
-
-
-def rate_limit() -> int:
-    """
-    Fetch rate_limit for GitHub REST API.
-    """
-    request_headers: Dict = dict()
-
-    # Spinner
-    spinner = Halo(text="Getting rate limit...", spinner="dots")
-    spinner.start()
-
-    # Check if the token is available.
-    token: Union[str, bool] = check_credential()
-
-    if token:
-        request_headers["Authorization"] = f"token {token}"
-
-    response = requests.get(
-        "https://api.github.com/rate_limit", headers=request_headers
-    )
-    data: Dict = response.json()
-
-    spinner.succeed("rate limit")
-
-    return data["resources"].get("core").get("remaining")
 
 
 def gql_rate_limit() -> int:
@@ -134,7 +123,7 @@ def web_server(html_data):
 
         with socketserver.TCPServer(("localhost", 0), Handler) as httpd:
             port = httpd.server_address[1]
-            print("serving at port", port)
+            print("Serving at port", port)
             webbrowser.open(f"http://127.0.0.1:{port}/")
             httpd.serve_forever()
 
