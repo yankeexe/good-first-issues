@@ -1,4 +1,5 @@
 """Entrypoint of the CLI"""
+from os import name
 import click
 from rich.console import Console
 
@@ -26,7 +27,7 @@ def cli():
 cli.add_command(search)
 
 
-@cli.command()
+@cli.command("rate-limit")
 def rate_limit():
     """
     Display GitHub API rate limit.
