@@ -10,7 +10,7 @@
 Requires Python 3.6.1 or higher.
 
 ```bash
-$ pip3 install good-first-issues
+$ pip3 install good-first-issues --upgrade
 ```
 
 The CLI uses the alias `gfi` to run commands.
