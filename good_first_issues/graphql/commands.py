@@ -20,7 +20,8 @@ console = Console(color_system="auto")
     type=str,
 )
 @click.option(
-    "--hacktoberfest","--hf",
+    "--hacktoberfest",
+    "--hf",
     help="Search repositories with topic hacktoberfest",
     is_flag=True,
 )
@@ -45,10 +46,18 @@ console = Console(color_system="auto")
     help="View all the issues found without limits.",
     is_flag=True,
 )
-@click.argument("name",required=False)
-def gql(name: str, repo: str, user: bool, web: bool, limit: int, all: bool, hacktoberfest: bool):
+@click.argument("name", required=False)
+def search(
+    name: str,
+    repo: str,
+    user: bool,
+    web: bool,
+    limit: int,
+    all: bool,
+    hacktoberfest: bool,
+):
     """
-    Sub-command for GraphQL mode.
+    Search for good first issue on organization or users.
     """
 
     if name is None and hacktoberfest is False:
@@ -62,7 +71,9 @@ def gql(name: str, repo: str, user: bool, web: bool, limit: int, all: bool, hack
     token: Union[str, bool] = utils.check_credential()
 
     # Identify the flags passed.
-    query, variables, mode = services.identify_mode(name, repo, user, hacktoberfest)
+    query, variables, mode = services.identify_mode(
+        name, repo, user, hacktoberfest
+    )
 
     # Spinner
     spinner = Halo(text="Fetching repos...", spinner="dots")

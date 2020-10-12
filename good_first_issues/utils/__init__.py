@@ -8,7 +8,6 @@ import socketserver
 from pathlib import Path
 from typing import Dict, Union, Optional, List
 
-import requests
 from halo import Halo
 
 from good_first_issues.graphql import services
@@ -48,32 +47,6 @@ def check_credential() -> Union[str, bool]:
             return cred.readline()
 
     return False
-
-
-def rate_limit() -> int:
-    """
-    Fetch rate_limit for GitHub REST API.
-    """
-    request_headers: Dict = dict()
-
-    # Spinner
-    spinner = Halo(text="Getting rate limit...", spinner="dots")
-    spinner.start()
-
-    # Check if the token is available.
-    token: Union[str, bool] = check_credential()
-
-    if token:
-        request_headers["Authorization"] = f"token {token}"
-
-    response = requests.get(
-        "https://api.github.com/rate_limit", headers=request_headers
-    )
-    data: Dict = response.json()
-
-    spinner.succeed("rate limit")
-
-    return data["resources"].get("core").get("remaining")
 
 
 def gql_rate_limit() -> int:
@@ -134,7 +107,7 @@ def web_server(html_data):
 
         with socketserver.TCPServer(("localhost", 0), Handler) as httpd:
             port = httpd.server_address[1]
-            print("serving at port", port)
+            print("Serving at port", port)
             webbrowser.open(f"http://127.0.0.1:{port}/")
             httpd.serve_forever()
 
