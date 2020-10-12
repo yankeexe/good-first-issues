@@ -10,24 +10,30 @@
 Requires Python 3.6.1 or higher.
 
 ```bash
-pip3 install good-first-issues
+$ pip3 install good-first-issues
 ```
 
 The CLI uses the alias `gfi` to run commands.
 
-![good first issues](https://i.imgur.com/qudPZ0W.png)
+<img src="https://i.imgur.com/UM4e9vQ.png" width="800" />
 
 ## Contents
 
-- [Good First Issues](#good-first-issues)
-  - [Install Good First Issues](#install-good-first-issues)
-    - [Create GitHub Personal Access Token:](#create-github-personal-access-token)
-  - [Usage](#usage)
-    - [GraphQL (recommended)](#graphql)
-    - [REST API](#rest-api)
-  - [Contributing](#contributing)
+- [Create GitHub Personal Access Token](#create-github-personal-access-token)
+- [Usage](#usage)
+  - [Search for issues](#search-for-issues)
+    - [Query all repos in an organization](#query-all-repos-in-an-organization)
+    - [Query a single repo in an organization](#query-a-single-repo-in-an-organization)
+    - [Query all repos in a user profile](#query-all-repos-in-a-user-profile)
+    - [Query a single repo in a user profile.](#query-a-single-repo-in-a-user-profile.)
+  - [Search for Hacktoberfest approved issues](#search-for-hacktoberfest-approved-issues)
+    - [Query all repos with topic `hacktoberfest`](#query-all-repos-with-topic-`hacktoberfest`)
+    - [Query all repos with topic 'hacktoberfest' in an organization or in a user profile](#query-all-repos-with-topic-'hacktoberfest'-in-an-organization-or-in-a-user-profile)
+  - [Changing output limits](#changing-output-limits)
+  - [Viewing issues on browser](#viewing-issues-on-browser)
+- [Contributing](#contributing)
 
-### Create GitHub Personal Access Token:
+### Create GitHub Personal Access Token
 
 The CLI requires GitHub Personal Access Token to make requests to the GitHub API.
 
@@ -38,119 +44,139 @@ You don't have to select any scopes, add a Note for your token and select _Gener
 **Provide token to CLI:**
 
 ```bash
-gfi config
+$ gfi config
 ```
 
 Token is stored locally on `/home/<username>/.gfi/good-first-issues` file.
 
 ## Usage
 
-GitHub provides API using both REST and GraphQL, each with 5000 requests per hour with the Personal Access Token.
+GitHub provides API to fetch user and organization data. [Personal Access Token](#create-github-personal-access-token) is required for authentication and data fetching.
 
-You can switch between these APIs but **using the GraphQL option is faster and efficient!**
+### Search for issues
 
-There are two ways you can get good first issues:
+To look for issues, use the `gfi search` command.
 
-1. query all the repos in a user or an organization profile.
-2. query a particular repo in a user or an organization profile.
-
-### **GraphQL**
-
-To use the GraphQL option use the `gfi gql` command.
-
-**Query all the repos in a user or an organization profile.**
+#### Query all repos in an organization
 
 ```bash
-# Query all repos in an organization
-gfi gql "rust-lang"
-
-# Query all repos in a user profile
-gfi gql "sindresorhus" --user
+$ gfi search "rust-lang"
 ```
 
-**Query a particular repo in a user or an organization profile.**
+> <details><summary><strong>Demo</strong></summary>
+> <img src = "https://i.imgur.com/B8zRd1z.gif" width="700" alt="demo of timezone cli search" />
+
+</details>
+
+#### Query a single repo in an organization
 
 ```bash
-# Query a single repo in an organization
-gfi gql "rust-lang" --repo "rust"
-
-# Query a single repo in a user profile
-# No --user flag needed.
-gfi gql "sindresorhus" --repo "awesome"
+$ gfi search "facebook" --repo "jest"
 ```
 
-**Query repositories with topic 'hacktoberfest'**
+> <details><summary><strong>Demo</strong></summary>
+> <img src = "https://i.imgur.com/XayYGEd.gif" width="700" alt="demo of timezone cli search" />
+
+</details>
+
+#### Query all repos in a user profile
 
 ```bash
-# Query all repos with topic 'hacktoberfest'
-gfi gql --hacktoberfest
-
-# Query all repos with topic 'hacktoberfest' in an organization or in a user profile
-# No --user flag needed for user.
-gfi gql "facebook" --hacktoberfest
-gfi gql "yankeexe" --hacktoberfest
+$ gfi search "yankeexe" --user
 ```
 
-**Changing output limits**
+> <details><summary><strong>Demo</strong></summary>
+> <img src = "https://i.imgur.com/LnPrk4A.gif" width="700" alt="demo of timezone cli search" />
+
+</details>
+
+#### Query a single repo in a user profile.
+
+`--user` flag not required here.
+
+```bash
+$ gfi search "yankeexe" --repo "good-first-issues"
+```
+
+> <details><summary><strong>Demo</strong></summary>
+> <img src = "https://i.imgur.com/ywGT9VQ.gif" width="700" alt="demo of timezone cli search" />
+
+</details>
+
+### Search for Hacktoberfest approved issues
+
+#### Query all repos with topic `hacktoberfest`
+
+```bash
+$ gfi search --hacktoberfest
+
+$ gfi search --hf
+```
+
+> <details><summary><strong>Demo</strong></summary>
+> <img src = "https://i.imgur.com/nuLNPjK.gif" width="700" alt="demo of timezone cli search" />
+
+</details>
+
+#### Query all repos with topic 'hacktoberfest' in an organization or in a user profile
+
+Query all repos with topic 'hacktoberfest' in an organization.
+
+```bash
+$ gfi search "facebook" --hacktoberfest
+```
+
+> <details><summary><strong>Demo</strong></summary>
+> <img src = "https://i.imgur.com/IWv9TqB.gif" width="700" alt="demo of timezone cli search" />
+
+</details>
+
+Query all repos with topic 'hacktoberfest' in a user profile.
+`--user` flag not required here.
+
+```bash
+$ gfi search "yankeexe" --hacktoberfest
+```
+
+> <details><summary><strong>Demo</strong></summary>
+> <img src = "https://i.imgur.com/vrgr8ju.gif" width="700" alt="demo of timezone cli search" />
+
+</details>
+
+### Changing output limits
 
 The output is limited to display 10 issues by default. Use `--limit` flag to set the number of issues for output or `--all` for no limits.
 
+Limit the issues to 12
+
 ```bash
-# Limit the issues to 20
-gfi gql "rust-lang" --limit 20
-
-# View all issues found.
-gfi gql "rust-lang" --all
-
+$ gfi search "facebook" --limit 12
 ```
 
-**Viewing issues on browser**
+> <details><summary><strong>Demo</strong></summary>
+> <img src = "https://i.imgur.com/WdXhA4Z.gif" width="700" alt="demo of timezone cli search" />
 
-<img src="https://i.imgur.com/V68FwIF.png" width="800" />
+</details>
+
+View all issues found.
+
+```bash
+$ gfi search "rust-lang" --all
+```
+
+### Viewing issues on browser
 
 It's hard to navigate through all the issues when you have the `--all` flag enabled, you can view the issues on your browser with ease using the `--web` flag.
 
 ```bash
-gfi gql "rust-lang" --all --web
+$ gfi search "facebook" --all --web
 ```
 
----
+> <details><summary><strong>Demo</strong></summary>
+> <img src = "https://i.imgur.com/AukVqdk.gif" width="700" alt="demo of timezone cli search" />
 
-### **REST API**
-
-To use the GraphQL option use the `gfi get` command.
-
-**Query all the repos in a user or an organization profile.**
-
-```bash
-# Query all repos in an organization
-gfi get "rust-lang"
-
-# Query all repos in a user profile
-gfi get "sindresorhus"
-```
-
-**Changing output limits**
-
-The output is limited to display 10 issues by default. Use `--limit` flag to set the number of issues for output or `--all` for no limits.
-
-```bash
-# Limit the issues to 20
-gfi get "rust-lang" --limit 20
-
-# View all issues found.
-gfi get "rust-lang" --all
-
-```
-
-**Viewing issues on browser**
-
-It's hard to navigate through all the issues when you have the `--all` flag enabled, you can view the issues on your browser with ease using the `--web` flag.
-
-```bash
-gfi gql "rust-lang" --all --web
-```
+</details>
 
 ## Contributing
 
-For guidance on setting up a development environment and how to make a contribution to Flask, see the [contributing guidelines](https://github.com/yankeexe/good-first-issues/blob/master/CONTRIBUTING.md).
+For guidance on setting up a development environment and how to make a contribution to `good-first-issues`, see the [contributing guidelines](https://github.com/yankeexe/good-first-issues/blob/master/CONTRIBUTING.md).
