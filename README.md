@@ -25,7 +25,7 @@ The CLI uses the alias `gfi` to run commands.
     - [Query all repos in an organization](#query-all-repos-in-an-organization)
     - [Query a single repo in an organization](#query-a-single-repo-in-an-organization)
     - [Query all repos in a user profile](#query-all-repos-in-a-user-profile)
-    - [Query a single repo in a user profile.](#query-a-single-repo-in-a-user-profile.)
+    - [Query a single repo in a user profile](#query-a-single-repo-in-a-user-profile)
   - [Search for Hacktoberfest approved issues](#search-for-hacktoberfest-approved-issues)
     - [Query all repos with topic `hacktoberfest`](#query-all-repos-with-topic-hacktoberfest)
     - [Query all repos with topic `hacktoberfest` in an organization or in a user profile](#query-all-repos-with-topic-hacktoberfest-in-an-organization-or-in-a-user-profile)
