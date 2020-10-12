@@ -8,10 +8,15 @@ import socketserver
 from pathlib import Path
 from typing import Dict, Union, Optional, List
 
+import click
 from halo import Halo
+from rich.console import Console
 
 from good_first_issues.graphql import services
 from good_first_issues.graphql.queries import rate_limit_query
+
+
+console = Console(color_system="auto")
 
 
 # Global variables
@@ -19,6 +24,14 @@ home_dir: str = str(Path.home())
 filename: str = "good-first-issues"
 credential_dir: str = f"{home_dir}/.gfi"
 credential_file: str = f"{credential_dir}/{filename}"
+
+
+def print_help_msg(command):
+    """
+    Prints help message for passed command.
+    """
+    with click.Context(command) as ctx:
+        click.echo(command.get_help(ctx))
 
 
 def add_credential(credential: str):
@@ -32,9 +45,12 @@ def add_credential(credential: str):
     os.mkdir(credential_dir)
 
     with open(f"{credential_file}", "w+") as cred:
-        cred.write(credential)
+        cred.write(credential.strip())
 
-    print(f"Credentials saved to {credential_file}")
+    console.print(
+        f"Credentials saved to [bold blue]{credential_file}[/bold blue]:white_check_mark:",
+        style="bold green",
+    )
 
 
 def check_credential() -> Union[str, bool]:

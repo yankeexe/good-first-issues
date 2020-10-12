@@ -1,4 +1,5 @@
 """ GraphQL mode commands. """
+import sys
 from typing import List, Optional, Union, Iterable
 
 import click
@@ -61,8 +62,8 @@ def search(
     """
 
     if name is None and hacktoberfest is False:
-        console.print("Error: Missing Argument NAME", style="bold red")
-        raise click.Abort()
+        utils.print_help_msg(search)
+        sys.exit()
 
     issues: Optional[Iterable] = None
     rate_limit: int = 0

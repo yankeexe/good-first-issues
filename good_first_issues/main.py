@@ -27,7 +27,7 @@ cli.add_command(search)
 
 
 @cli.command()
-def rate_limit(gql: bool):
+def rate_limit():
     """
     Display GitHub API rate limit.
     """
