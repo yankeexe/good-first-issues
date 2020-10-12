@@ -23,7 +23,7 @@ console = Console(color_system="auto")
 )
 @click.option(
     "--hacktoberfest",
-    "--hf",
+    "-hf",
     help="Search repositories with topic hacktoberfest",
     is_flag=True,
 )
