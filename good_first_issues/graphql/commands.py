@@ -52,7 +52,7 @@ def gql(name: str, repo: str, user: bool, web: bool, limit: int, all: bool, hack
     """
 
     if name is None and hacktoberfest is False:
-        click.echo("Missing Argument NAME")
+        console.print("Error: Missing Argument NAME", style="bold red")
         raise click.Abort()
 
     issues: Optional[Iterable] = None
