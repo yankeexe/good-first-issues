@@ -79,6 +79,18 @@ gfi gql "rust-lang" --repo "rust"
 gfi gql "sindresorhus" --repo "awesome"
 ```
 
+**Query repositories with topic 'hacktoberfest'**
+
+```bash
+# Query all repos with topic 'hacktoberfest'
+gfi gql --hacktoberfest
+
+# Query all repos with topic 'hacktoberfest' in an organization or in a user profile
+# No --user flag needed for user.
+gfi gql "facebook" --hacktoberfest
+gfi gql "yankeexe" --hacktoberfest
+```
+
 **Changing output limits**
 
 The output is limited to display 10 issues by default. Use `--limit` flag to set the number of issues for output or `--all` for no limits.
