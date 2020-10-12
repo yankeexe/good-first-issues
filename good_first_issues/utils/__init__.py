@@ -43,6 +43,8 @@ def check_credential() -> Union[str, bool]:
     Check for GitHub credential in config file.
     Return if exists.
     """
+    if (cred := os.environ.get("GFITOKEN") )is not None:
+        return cred
     if os.path.exists(credential_file):
         with open(credential_file) as cred:
             return cred.readline()
