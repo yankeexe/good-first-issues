@@ -17,6 +17,7 @@ console = Console(color_system="auto")
 @click.command()
 @click.option(
     "--repo",
+    "-r",
     help="Search in a specific repo of user or organization",
     type=str,
 )
@@ -28,6 +29,7 @@ console = Console(color_system="auto")
 )
 @click.option(
     "--limit",
+    "-l",
     help="Limit the number of issues to display. Defaults to 10",
     type=int,
 )
@@ -44,6 +46,7 @@ console = Console(color_system="auto")
 )
 @click.option(
     "--all",
+    "-a",
     help="View all the issues found without limits.",
     is_flag=True,
 )
