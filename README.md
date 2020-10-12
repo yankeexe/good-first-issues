@@ -110,11 +110,11 @@ $ gfi search "yankeexe" --repo "good-first-issues"
 ```bash
 $ gfi search --hacktoberfest
 
-$ gfi search --hf
+$ gfi search -hf
 ```
 
 > <details><summary><strong>Demo</strong></summary>
-> <img src = "https://i.imgur.com/nuLNPjK.gif" width="700" alt="demo of timezone cli search" />
+> <img src = "https://i.imgur.com/6Ch5BFG.gif" width="700" alt="demo of timezone cli search" />
 
 </details>
 
@@ -127,7 +127,7 @@ $ gfi search "facebook" --hacktoberfest
 ```
 
 > <details><summary><strong>Demo</strong></summary>
-> <img src = "https://i.imgur.com/IWv9TqB.gif" width="700" alt="demo of timezone cli search" />
+> <img src = "https://i.imgur.com/Kj6lEMN.gif" width="700" alt="demo of timezone cli search" />
 
 </details>
 
