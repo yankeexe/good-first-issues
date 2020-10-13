@@ -25,16 +25,18 @@ The CLI uses the alias `gfi` to run commands.
 
 ## Contents
 
-- [Create GitHub Personal Access Token](#create-github-personal-access-token)
+- [Install Good First Issues](#install-good-first-issues)
+- [Contents](#contents)
+  - [Create GitHub Personal Access Token](#create-github-personal-access-token)
 - [Usage](#usage)
   - [Search for issues](#search-for-issues)
     - [Query all repos in an organization](#query-all-repos-in-an-organization)
     - [Query a single repo in an organization](#query-a-single-repo-in-an-organization)
     - [Query all repos in a user profile](#query-all-repos-in-a-user-profile)
-    - [Query a single repo in a user profile](#query-a-single-repo-in-a-user-profile)
+    - [Query a single repo in a user profile.](#query-a-single-repo-in-a-user-profile)
   - [Search for Hacktoberfest approved issues](#search-for-hacktoberfest-approved-issues)
     - [Query all repos with topic `hacktoberfest`](#query-all-repos-with-topic-hacktoberfest)
-    - [Query all repos with topic `hacktoberfest` in an organization or in a user profile](#query-all-repos-with-topic-hacktoberfest-in-an-organization-or-in-a-user-profile)
+    - [Query all repos with topic 'hacktoberfest' in an organization or in a user profile](#query-all-repos-with-topic-hacktoberfest-in-an-organization-or-in-a-user-profile)
   - [Changing output limits](#changing-output-limits)
   - [Viewing issues on browser](#viewing-issues-on-browser)
 - [Contributing](#contributing)
@@ -53,11 +55,11 @@ You don't have to select any scopes, add a Note for your token and select _Gener
 $ gfi config
 ```
 
-
 Token is stored locally on `/home/<username>/.gfi/good-first-issues` file.
+
 **Token in envrionment variable:**
 
-You should store with the name `GFITOKEN` in your environment.
+Store the token with the name `GFITOKEN` in your environment.
 
 ## Usage
 
