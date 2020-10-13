@@ -53,7 +53,11 @@ You don't have to select any scopes, add a Note for your token and select _Gener
 $ gfi config
 ```
 
+
 Token is stored locally on `/home/<username>/.gfi/good-first-issues` file.
+**Token in envrionment variable:**
+
+You should store with the name `GFITOKEN` in your environment.
 
 ## Usage
 
