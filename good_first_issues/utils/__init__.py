@@ -55,10 +55,13 @@ def add_credential(credential: str):
 
 def check_credential() -> Union[str, bool]:
     """
-    Check for GitHub credential in config file.
+    Check for GitHub credential in Envrionment variable
+    else in config file.
     Return if exists.
     """
-    if os.path.exists(credential_file):
+    if (cred := os.environ.get("GFITOKEN")) is not None:
+        return cred
+    elif os.path.exists(credential_file):
         with open(credential_file) as cred:
             return cred.readline()
 
