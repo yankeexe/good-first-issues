@@ -23,4 +23,4 @@ check:
 	@black --check --diff .
 
 setup:
-	@pip install -e .[dev]
+	@pip install -e .[dev] -r requirements/dev.txt
