@@ -64,7 +64,7 @@ def search(
     Search for good first issue on organization or users.
     """
 
-    if name is None and hacktoberfest is False:
+    if name is None and not hacktoberfest:
         utils.print_help_msg(search)
         sys.exit()
 
@@ -89,7 +89,7 @@ def search(
     spinner.succeed("Repos fetched.")
 
     # Data Filtering
-    if mode == "org" or mode == "user":
+    if mode in ["org", "user"]:
         issues, rate_limit = services.org_user_pipeline(response, mode)
 
     if mode == "repo":
