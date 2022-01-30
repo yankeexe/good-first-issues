@@ -123,7 +123,7 @@ def search(
     row_ids: List[int] = utils.get_row_ids(issue_count, limiter)
     print(
         tabulate(
-            issues[:limiter],
+            utils.break_issues_line(issues)[:limiter],
             table_headers,
             tablefmt="fancy_grid",
             showindex=row_ids,

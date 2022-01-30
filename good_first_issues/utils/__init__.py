@@ -6,7 +6,7 @@ import webbrowser
 import http.server
 import socketserver
 from pathlib import Path
-from typing import Dict, Union, Optional, List
+from typing import Dict, Iterable, Union, Optional, List
 
 import click
 from halo import Halo
@@ -24,6 +24,7 @@ home_dir: str = str(Path.home())
 filename: str = "good-first-issues"
 credential_dir: str = f"{home_dir}/.gfi"
 credential_file: str = f"{credential_dir}/{filename}"
+max_line_length: int = 80
 
 
 def print_help_msg(command):
@@ -59,7 +60,8 @@ def check_credential() -> Union[str, bool]:
     else in config file.
     Return if exists.
     """
-    if (cred := os.environ.get("GFITOKEN")) is not None:
+    cred = os.environ.get("GFITOKEN")
+    if cred is not None:
         return cred
     elif os.path.exists(credential_file):
         with open(credential_file) as cred:
@@ -149,6 +151,38 @@ def add_anchor_tag(html_data):
         html_data = re.sub(pattern, url, html_data, 1)
 
     return html_data
+
+
+def break_issues_line(issues: Iterable) -> Iterable:
+    """
+    Breaks the line length of issue title and url link to fit
+    termial width
+    """
+    shorted_issues: Iterable = list()
+    for issue in issues:
+        title = shorten_string(issue[0])
+        issue_url = shorten_string(issue[1])
+        shorted_issues.append((title, issue_url))
+    return shorted_issues
+
+
+def shorten_string(word: str) -> str:
+    """
+    Shorten the length of a string to the maximum
+    line length specified
+    """
+    words : List[str] = word.split(" ")
+    new_string = ""
+    current_string = ""
+    for word in words:
+      if len(current_string + word) > max_line_length:
+        new_string += current_string + "\n"
+        current_string = word + " "
+      else:
+        current_string += word + " "
+
+    new_string += current_string
+    return new_string
 
 
 # Template for displaying issues on web.
