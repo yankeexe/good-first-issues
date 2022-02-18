@@ -6,6 +6,7 @@ with open("README.md", "r") as f:
     long_description = f.read()
 
 requirements = ["halo", "requests", "click", "tabulate", "rich<=7.1.0"]
+requirements_dev = ["pytest", "black", "pre-commit", "mypy", "pip-tools"]
 
 setuptools.setup(
     name="good-first-issues",
@@ -19,6 +20,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     install_requires=requirements,
+    extras_require={"dev": requirements_dev},
     entry_points={"console_scripts": ["gfi = good_first_issues.main:cli"]},
     classifiers=[
         "Programming Language :: Python :: 3.6",

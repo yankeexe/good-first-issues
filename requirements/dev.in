@@ -1,5 +1,0 @@
-pytest<=4.*
-black<=20.8b1
-pre-commit
-mypy
-pip-tools

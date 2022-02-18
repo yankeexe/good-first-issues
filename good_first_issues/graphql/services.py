@@ -48,9 +48,7 @@ def org_user_pipeline(payload: Dict, mode: str) -> Tuple[Iterable, int]:
     owner_type: str = "organization" if mode == "org" else "user"
 
     # Get the edges connecting to all the repositories.
-    base_data: List = (
-        payload["data"].get(owner_type).get("repositories").get("edges")
-    )
+    base_data: List = payload["data"].get(owner_type).get("repositories").get("edges")
 
     # Extract rate limit value.
     rate_limit: int = payload["data"].get("rateLimit").get("remaining")
@@ -97,9 +95,7 @@ def extract_repo_issues(
     BaseData = Optional[Iterable[Dict[str, Dict[str, str]]]]
     IssueData = Tuple[Optional[str], Optional[str]]
 
-    base_data: BaseData = (
-        payload["data"].get("repository").get("issues").get("edges")
-    )
+    base_data: BaseData = payload["data"].get("repository").get("issues").get("edges")
 
     rate_limit: int = payload["data"].get("rateLimit").get("remaining")
 
@@ -234,9 +230,7 @@ def caller(token: Union[str, bool], query: str, variables: Dict) -> Dict:
 
     except requests.exceptions.ReadTimeout:
         spinner.fail("Error")
-        console.print(
-            "Network connection timeout.:construction:", style="bold red"
-        )
+        console.print("Network connection timeout.:construction:", style="bold red")
 
         sys.exit()
     except requests.exceptions.HTTPError:

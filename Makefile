@@ -24,7 +24,7 @@ check: # Check for formatting issues with black
 	@black --check --diff .
 
 setup: # Setup local development environment
-	@pip install -e .[dev] -r requirements/dev.txt
+	@pip install -e .[dev]
 
 help: # Show this help
 	@egrep -h '\s#\s' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?# "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
