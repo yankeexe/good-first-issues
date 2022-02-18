@@ -12,6 +12,7 @@ Include the following in your patch:
 
 - Use [mypy](https://github.com/python/mypy) to check static typing on the codebase.
 
+- Use [isort](https://github.com/PyCQA/isort) to sort your imports.
 ### First time setup
 
 - Clone the repo locally.
