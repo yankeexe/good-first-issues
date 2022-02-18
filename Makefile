@@ -2,9 +2,19 @@ SHELL :=/bin/bash
 CWD := $(PWD)
 TMP_PATH := $(CWD)/.tmp
 VENV_PATH := $(CWD)/venv
+docker_image := good-first-issues
 
 .PHONY: test clean
 .DEFAULT_GOAL := help
+
+
+build: # Build Docker image for CLI
+	@docker build -t $(docker_image) .
+
+build.if:
+	@if [ "$$(docker images -q $(docker_image) 2> /dev/null)" = "" ]; then \
+		$(MAKE) -s build; \
+	fi
 
 clean: # Clean cache files
 	@rm -rf $(TMP_PATH) __pycache__ .pytest_cache
