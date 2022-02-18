@@ -21,7 +21,10 @@ setuptools.setup(
     install_requires=requirements,
     extras_require={"dev": requirements_dev},
     entry_points={"console_scripts": ["gfi = good_first_issues.main:cli"]},
+    python_requires=">=3.6",
     classifiers=[
+        "Intended Audience :: Developers",
+        "Topic :: Software Development :: CLI",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
@@ -29,4 +32,8 @@ setuptools.setup(
         "Development Status :: 4 - Beta",
         "License :: OSI Approved :: MIT License",
     ],
+    project_urls={
+        "Bug Reports": "https://github.com/yankeexe/good-first-issues/issues",
+        "Source": "https://github.com/yankeexe/good-first-issues",
+    },
 )
