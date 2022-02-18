@@ -1,11 +1,11 @@
 """Entrypoint of the CLI"""
 from os import name
+
 import click
 from rich.console import Console
 
 from . import utils
 from .graphql.commands import search
-
 
 console = Console(color_system="auto")
 
@@ -34,9 +34,7 @@ def rate_limit():
     """
     rate_limit = utils.gql_rate_limit()
 
-    console.print(
-        f"Remaining requests:dash:: {rate_limit}", style="bold green"
-    )
+    console.print(f"Remaining requests:dash:: {rate_limit}", style="bold green")
 
 
 @cli.command()

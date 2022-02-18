@@ -1,15 +1,14 @@
 """ GraphQL mode commands. """
 import sys
-from typing import List, Optional, Union, Iterable
+from typing import Iterable, List, Optional, Union
 
 import click
 from halo import Halo
-from tabulate import tabulate
 from rich.console import Console
+from tabulate import tabulate
 
 from good_first_issues import utils
 from good_first_issues.graphql import services
-
 
 console = Console(color_system="auto")
 
@@ -75,9 +74,7 @@ def search(
     token: Union[str, bool] = utils.check_credential()
 
     # Identify the flags passed.
-    query, variables, mode = services.identify_mode(
-        name, repo, user, hacktoberfest
-    )
+    query, variables, mode = services.identify_mode(name, repo, user, hacktoberfest)
 
     # Spinner
     spinner = Halo(text="Fetching repos...", spinner="dots")
@@ -130,7 +127,5 @@ def search(
         )
     )
 
-    console.print(
-        f"Remaining requests:dash:: {rate_limit}", style="bold green"
-    )
+    console.print(f"Remaining requests:dash:: {rate_limit}", style="bold green")
     console.print("Happy Hacking :tada::zap::rocket:", style="bold blue")

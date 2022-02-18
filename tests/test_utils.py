@@ -1,7 +1,6 @@
 import pytest
 
-from good_first_issues.utils import identify_limit
-from good_first_issues.utils import get_row_ids
+from good_first_issues.utils import get_row_ids, identify_limit
 
 
 @pytest.mark.parametrize(

@@ -1,31 +1,22 @@
 """Services for GraphQL mode"""
 import re
 import sys
-from click.core import Option
-from urllib3.util.retry import Retry
-from typing import (
-    Dict,
-    Iterator,
-    List,
-    Iterable,
-    Tuple,
-    Union,
-    Optional,
-)
+from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 import requests
+from click.core import Option
 from halo import Halo
-from rich.console import Console
-from requests.models import Response
 from requests.adapters import HTTPAdapter
+from requests.models import Response
+from rich.console import Console
+from urllib3.util.retry import Retry
 
 from good_first_issues.graphql.queries import (
     org_query,
     repo_query,
-    user_query,
     search_query,
+    user_query,
 )
-
 
 # Initializations
 console = Console(color_system="auto")

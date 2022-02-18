@@ -1,12 +1,12 @@
 """Utils for CLI"""
-import re
-import os
-import shutil
-import webbrowser
 import http.server
+import os
+import re
+import shutil
 import socketserver
+import webbrowser
 from pathlib import Path
-from typing import Dict, Union, Optional, List
+from typing import Dict, List, Optional, Union
 
 import click
 from halo import Halo
@@ -14,7 +14,6 @@ from rich.console import Console
 
 from good_first_issues.graphql import services
 from good_first_issues.graphql.queries import rate_limit_query
-
 
 console = Console(color_system="auto")
 
