@@ -36,9 +36,10 @@ check: # Check for formatting issues with black
 setup: # Setup local development environment
 	@pip install -e .[dev]
 
-lint:
+lint: # Run linters
 	@black --exclude venv .
 	@isort .
+	@flake8
 
 help: # Show this help
 	@egrep -h '\s#\s' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?# "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'

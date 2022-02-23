@@ -1,4 +1,3 @@
-""" GraphQL mode commands. """
 import sys
 from typing import Iterable, List, Optional, Union
 

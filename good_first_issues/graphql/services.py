@@ -1,10 +1,8 @@
 """Services for GraphQL mode"""
-import re
 import sys
 from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 import requests
-from click.core import Option
 from halo import Halo
 from requests.adapters import HTTPAdapter
 from requests.models import Response
@@ -25,6 +23,7 @@ spinner: Halo = Halo(text="Looking for good first issues...", spinner="dots")
 # Type Aliases
 BaseIssueEdges = Iterator[Dict[str, Dict[str, str]]]
 ExtractedRepoIssues = Tuple[List[Tuple[Optional[str], Optional[str]]], int]
+
 
 # Custom Error Class.
 class NoToken(Exception):
@@ -240,7 +239,7 @@ def caller(token: Union[str, bool], query: str, variables: Dict) -> Dict:
             style="bold red",
         )
         console.print(
-            "> https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token"
+            "> https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token"  # noqa: E501
         )
 
         sys.exit()
@@ -257,7 +256,7 @@ def caller(token: Union[str, bool], query: str, variables: Dict) -> Dict:
     except:
         spinner.fail("Error")
         console.print(
-            "An error has occcured. Please try again later or open an issue on GitHub.:x:",
+            "An error has occcured. Please try again later or open an issue on GitHub.:x:",  # noqa: E501
             style="bold red",
         )
 

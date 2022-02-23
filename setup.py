@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
     long_description = f.read()
 
 requirements = ["halo", "requests", "click", "tabulate", "rich<=7.1.0"]
-requirements_dev = ["pytest", "black", "pre-commit", "mypy", "isort"]
+requirements_dev = ["pytest", "black", "pre-commit", "mypy", "isort", "flake8"]
 
 setuptools.setup(
     name="good-first-issues",

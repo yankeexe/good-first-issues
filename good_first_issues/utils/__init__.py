@@ -47,7 +47,7 @@ def add_credential(credential: str):
         cred.write(credential.strip())
 
     console.print(
-        f"Credentials saved to [bold blue]{credential_file}[/bold blue]:white_check_mark:",
+        f"Credentials saved to [bold blue]{credential_file}[/bold blue]:white_check_mark:",  # noqa: E501
         style="bold green",
     )
 
