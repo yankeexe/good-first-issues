@@ -1,8 +1,10 @@
 name: Good First Issues
 
 on:
+  push:
+    branches: ["*"]
   pull_request:
-    branches: "*"
+    branches: ["*"]
 
 jobs:
   Linter:
@@ -17,6 +19,6 @@ jobs:
 
       - name: Black Lint
         run: |
-          pip install black
-          black .
+          pip install isort flake8 black
+          make lint
 
