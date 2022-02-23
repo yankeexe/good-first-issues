@@ -17,7 +17,7 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Black Lint
+      - name: Run Linters
         run: |
           pip install isort flake8 black
           make lint
