@@ -24,10 +24,7 @@ setuptools.setup(
     python_requires=">=3.6",
     classifiers=[
         "Intended Audience :: Developers",
-        "Topic :: Software Development :: CLI",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
+       
         "Operating System :: OS Independent",
         "Development Status :: 4 - Beta",
         "License :: OSI Approved :: MIT License",
