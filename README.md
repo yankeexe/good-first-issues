@@ -47,7 +47,7 @@ The CLI requires GitHub Personal Access Token to make requests to the GitHub API
 
 > Get [GitHub Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
 
-You don't have to select any scopes, add a Note for your token and select _Generate token_.
+You can add a Note to your token and select _Generate token_ without having to select any scopes.
 
 **Provide token to CLI:**
 
