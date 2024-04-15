@@ -1,11 +1,18 @@
 """Package setup"""
+
 import setuptools
 
 with open("README.md", "r") as f:
     long_description = f.read()
 
-requirements = ["halo", "requests", "click", "tabulate", "rich<=7.1.0"]
-requirements_dev = ["pytest", "ruff", "pre-commit", "mypy"]
+requirements = [
+    "halo==0.0.31",
+    "requests==2.31.0",
+    "click==8.1.7",
+    "tabulate==0.9.0",
+    "rich<=7.1.0",
+]
+requirements_dev = ["pytest==8.1.1", "ruff==0.3.7", "pre-commit", "mypy"]
 
 setuptools.setup(
     name="good-first-issues",
