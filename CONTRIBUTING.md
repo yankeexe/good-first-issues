@@ -6,7 +6,7 @@ Thank you for considering contributing to Good First Issues!
 
 Include the following in your patch:
 
-- Use [Black](https://github.com/astral-sh/ruff) to lint and format your code. This and other tools will run automatically if you install [pre-commit](https://github.com/pre-commit/pre-commit-hooks) using the instructions below.
+- Use [Ruff](https://github.com/astral-sh/ruff) to lint and format your code. This and other tools will run automatically if you install [pre-commit](https://github.com/pre-commit/pre-commit-hooks) using the instructions below.
 
 - Update README.md about new changes if it affects the sub-commands.
 
