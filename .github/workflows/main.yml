@@ -1,24 +1,22 @@
 name: Good First Issues
-
 on:
   push:
-    branches: ["*"]
+    branches:
+      - '*'
   pull_request:
-    branches: ["*"]
-
+    branches:
+      - '*'
 jobs:
   Linter:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: 3.8
-
       - name: Run Linters
         run: |
-          pip install isort flake8 black
+          RUFF_VERSION=$(grep 'ruff==' setup.py | sed -n 's/.*ruff==\([0-9.]*\).*/\1/p')
+          pip install ruff=="$RUFF_VERSION"
           make lint
-
