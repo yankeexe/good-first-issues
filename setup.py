@@ -7,16 +7,16 @@ with open("README.md", "r") as f:
 
 requirements = [
     "halo==0.0.31",
-    "requests==2.31.0",
+    "requests==2.32.0",
     "click==8.1.7",
     "tabulate==0.9.0",
-    "rich<=7.1.0",
+    "rich<=13.7.1",
 ]
-requirements_dev = ["pytest==8.1.1", "ruff==0.3.7", "pre-commit", "mypy"]
+requirements_dev = ["pytest==8.2.2", "ruff==0.5.0", "pre-commit", "mypy"]
 
 setuptools.setup(
     name="good-first-issues",
-    version="2.1.0",
+    version="2.1.1",
     author="Yankee Maharjan",
     author_email="yankee.exe@gmail.com",
     url="https://github.com/yankeexe/good-first-issues",
