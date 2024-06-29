@@ -7,7 +7,7 @@ with open("README.md", "r") as f:
 
 requirements = [
     "halo==0.0.31",
-    "requests==2.32.0",
+    "requests==2.32.3",
     "click==8.1.7",
     "tabulate==0.9.0",
     "rich<=13.7.1",
