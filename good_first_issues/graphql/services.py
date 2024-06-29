@@ -1,4 +1,5 @@
 """Services for GraphQL mode"""
+
 import sys
 from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
@@ -253,6 +254,7 @@ def caller(token: Union[str, bool], query: str, variables: Dict) -> Dict:
         )
 
         sys.exit()
+    # ruff: noqa: E722
     except:
         spinner.fail("Error")
         console.print(

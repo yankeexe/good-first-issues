@@ -1,4 +1,5 @@
 """Entrypoint of the CLI"""
+
 import click
 from rich.console import Console
 

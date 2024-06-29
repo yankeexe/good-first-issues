@@ -1,4 +1,5 @@
 """Utils for CLI"""
+
 import http.server
 import os
 import re
@@ -117,7 +118,6 @@ def web_server(html_data):
 
     url_data = add_anchor_tag(html_data)
     try:
-
         with open(filename, "w+") as file:
             file.write(html_template.format(table=url_data))
 
