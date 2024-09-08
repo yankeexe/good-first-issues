@@ -12,7 +12,7 @@ requirements = [
     "tabulate==0.9.0",
     "rich<=13.7.1",
 ]
-requirements_dev = ["pytest==8.2.2", "ruff==0.5.0", "pre-commit", "mypy"]
+requirements_dev = ["pytest==8.2.2", "ruff==0.6.4", "pre-commit", "mypy"]
 
 setuptools.setup(
     name="good-first-issues",
