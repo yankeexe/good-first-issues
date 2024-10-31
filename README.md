@@ -45,9 +45,9 @@ The CLI uses the alias `gfi` to run commands.
 
 The CLI requires GitHub Personal Access Token to make requests to the GitHub API.
 
-> Get [GitHub Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
+> Get [GitHub Fine-grained Personal Access Token](https://github.com/settings/tokens?type=beta)
 
-You can add a Note to your token and select _Generate token_ without having to select any scopes.
+You can add a Description to your token, select "Public Repositories (read-only)" and select _Generate token_.
 
 **Provide token to CLI:**
 
