@@ -8,6 +8,11 @@ on:
 jobs:
   Publish-to-PyPI:
     runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/good-first-issues
+    permissions:
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -16,10 +21,7 @@ jobs:
       - name: Install Dependencies
         run: pip install wheel build
       - name: Build Distribution packages
-        run: python -m build
+        run: python setup.py sdist bdist_wheel
       - name: Publish a Python distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         if: startsWith(github.ref, 'refs/tags/')
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_PASSWORD }}
