@@ -58,8 +58,26 @@ def search(
     all: bool,
     hacktoberfest: bool,
 ):
-    """
-    Search for good first issue on organization or users.
+    """Search for good first issues in organizations or user repositories.
+
+    Usage:
+
+    gfi search <repo-owner/org-name>
+
+    ➡️ repo owner
+
+        gfi search "yankeexe"
+
+    ➡️ org name
+
+        gfi search "ollama"
+
+    ➡️ search in a particular repo
+
+        gfi search "yankeexe" --repo "good-first-issues"
+
+        gfi search "ollama" --repo "ollama-python"
+
     """
 
     if name is None and hacktoberfest is False:
