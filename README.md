@@ -8,7 +8,9 @@
 <p align="center">
 <img src="https://img.shields.io/pypi/v/good-first-issues" />
 <img src="https://img.shields.io/pypi/pyversions/good-first-issues" />
-<img src="https://img.shields.io/pypi/l/good-first-issues" />
+<img src="https://img.shields.io/pypi/l/good-first-issues"/>
+<img src="https://static.pepy.tech/badge/good-first-issues"/>
+
 </p>
 
 ## Install Good First Issues
