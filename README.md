@@ -15,7 +15,7 @@
 
 ## Install Good First Issues
 
-Requires Python 3.6.1 or higher.
+Requires Python 3.9 or higher.
 
 ```bash
 $ pip3 install good-first-issues --upgrade
@@ -76,7 +76,7 @@ To look for issues, use the `gfi search` command.
 ```bash
 $ gfi search "rust-lang"
 ```
-
+e
 > <details><summary><strong>Demo</strong></summary>
 > <img src = "https://i.imgur.com/B8zRd1z.gif" width="700" alt="demo of timezone cli search" />
 
