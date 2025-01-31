@@ -127,6 +127,23 @@ $ gfi search --hacktoberfest
 $ gfi search -hf
 ```
 
+### Search for issues within a certain period
+
+```bash
+$ gfi search "rust-lang" -p "30 days"
+```
+
+```bash
+# Example Usage:
+--period 1 m,min,mins,minutes
+
+--period 2 h,hr,hour,hours,hrs
+
+--period 3 d,day,days
+
+```
+
+
 > <details><summary><strong>Demo</strong></summary>
 > <img src = "https://i.imgur.com/6Ch5BFG.gif" width="700" alt="demo of timezone cli search" />
 
