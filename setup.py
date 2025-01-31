@@ -18,7 +18,6 @@ setuptools.setup(
     name="good-first-issues",
     version="2.1.3",
     author="Yankee Maharjan",
-    author_email="yankee.exe@gmail.com",
     url="https://github.com/yankeexe/good-first-issues",
     description="Find good first issues right from your CLI!",
     license="MIT",
