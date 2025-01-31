@@ -1,11 +1,14 @@
 """Utils for CLI"""
 
+import datetime
 import http.server
 import os
 import re
 import shutil
 import socketserver
+import sys
 import webbrowser
+from collections import namedtuple
 from pathlib import Path
 from typing import Dict, List, Optional, Union
 
@@ -24,6 +27,77 @@ home_dir: str = str(Path.home())
 filename: str = "good-first-issues"
 credential_dir: str = f"{home_dir}/.gfi"
 credential_file: str = f"{credential_dir}/{filename}"
+
+
+ParsedDuration = namedtuple("ParsedDuration", ["absolute_period", "utc_date_time"])
+
+
+def parse_period(duration: str) -> ParsedDuration:
+    """Parses a duration string into absolute period and UTC datetime.
+
+    Args:
+        duration: String representing a duration in minutes, hours or days.
+            Format: <number><unit> where unit can be:
+            - m, min, mins, minutes for minutes
+            - h, hr, hrs, hours for hours
+            - d, day, days for days
+
+    Returns:
+        ParsedDuration: A named tuple containing:
+            - absolute_period: Duration in minutes
+            - utc_date_time: UTC datetime representing duration from now
+
+    Raises:
+        SystemExit: If duration string format is invalid
+    """
+    pattern = r"^(?P<Period>\d+)\s?(?P<Duration>m|min|mins|minutes|h|hr|hrs|hours|d|day|days)?$"
+    regex = re.compile(pattern)
+    match = regex.match(duration)
+
+    if not match:
+        print(
+            "❌ Invalid status duration\nUse 'gfi search --help for  more information.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    period_str = match.group("Period")
+    duration_type = match.group("Duration")
+
+    # Convert period to integer and ensure it's non-negative
+    period = int(period_str)
+    period = abs(period)
+
+    if not duration_type:
+        print(
+            "Invalid duration.\nUse 'gfi search --help for  more information.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    if duration_type in ["m", "min", "mins", "minutes"]:
+        abs_period = period
+        utc_time = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
+            minutes=period
+        )
+    elif duration_type in ["h", "hr", "hrs", "hours"]:
+        abs_period = period * 60
+        utc_time = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
+            hours=period
+        )
+    elif duration_type in ["d", "day", "days"]:
+        abs_period = period * 60 * 24
+        utc_time = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
+            days=period
+        )
+    else:
+        print("Invalid duration type", file=sys.stderr)
+        sys.exit(1)
+
+    return ParsedDuration(
+        absolute_period=abs_period,
+        utc_date_time=utc_time,
+    )
 
 
 def print_help_msg(command):

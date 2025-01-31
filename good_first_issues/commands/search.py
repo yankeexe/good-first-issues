@@ -8,8 +8,23 @@ from tabulate import tabulate
 
 from good_first_issues import utils
 from good_first_issues.graphql import services
+from good_first_issues.utils import ParsedDuration, parse_period
 
 console = Console(color_system="auto")
+
+
+period_help_msg = """
+Specify a time range for filtering data.
+
+Converts the specified time range to UTC date time
+
+--period 1 m,min,mins,minutes
+
+--period 2 h,hr,hour,hours,hrs
+
+--period 3 d,day,days
+
+"""
 
 
 @click.command()
@@ -48,6 +63,7 @@ console = Console(color_system="auto")
     help="View all the issues found without limits.",
     is_flag=True,
 )
+@click.option("--period", "-p", help=period_help_msg)
 @click.argument("name", required=False)
 def search(
     name: str,
@@ -57,6 +73,7 @@ def search(
     limit: int,
     all: bool,
     hacktoberfest: bool,
+    period: str,
 ):
     """Search for good first issues in organizations or user repositories.
 
@@ -66,7 +83,7 @@ def search(
 
     ➡️ repo owner
 
-        gfi search "yankeexe"
+        gfi search "yankeexe" --user
 
     ➡️ org name
 
@@ -90,15 +107,22 @@ def search(
     # Check for GitHub Token.
     token: Union[str, bool] = utils.check_credential()
 
+    if period:
+        period: ParsedDuration = parse_period(period)
+        period = period.utc_date_time.strftime("%Y-%m-%dT%H:%M:%SZ")
+
     # Identify the flags passed.
-    query, variables, mode = services.identify_mode(name, repo, user, hacktoberfest)
+    query, variables, mode = services.identify_mode(
+        name, repo, user, hacktoberfest, period
+    )
 
     # Spinner
     spinner = Halo(text="Fetching repos...", spinner="dots")
-    spinner.start()
+    # spinner.start()
 
     # API Call
     response = services.caller(token, query, variables)
+    breakpoint()
 
     spinner.succeed("Repos fetched.")
 
