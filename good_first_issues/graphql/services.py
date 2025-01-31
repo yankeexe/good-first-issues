@@ -10,12 +10,7 @@ from requests.models import Response
 from rich.console import Console
 from urllib3.util.retry import Retry
 
-from good_first_issues.graphql.queries import (
-    org_query,
-    repo_query,
-    search_query,
-    user_query,
-)
+from good_first_issues.graphql.queries import core_query, search_query
 
 # Initializations
 console = Console(color_system="auto")
@@ -125,7 +120,7 @@ def extract_search_results(payload: Dict) -> Tuple[Iterable, int]:
 
 
 def identify_mode(
-    name: str, repo: str, user: bool, hacktoberfest: bool
+    name: str, repo: str, user: bool, hacktoberfest: bool, period: str
 ) -> Tuple[str, Dict, str]:
     """
     Identify the mode based on arguments passed.
@@ -136,24 +131,30 @@ def identify_mode(
     3. function(mode) to pass the above values to
     """
     variables: Dict = dict()
+    base_variable = 'label:"good first issue" is:open is:issue'
 
-    if name and repo and user:
-        query = repo_query
-        variables["owner"] = name
-        variables["name"] = repo
+    if period:
+        base_variable = f"{base_variable} created:>={period}"
+
+    if name and user and repo:
+        # If CLI gets the --user flag along with the --repo flag, look into that particular repo.
+        query = core_query
+        variables["searchQuery"] = f"repo:{name}/{repo} {base_variable}"
         mode: str = "repo"
     elif name and repo:
-        query = repo_query
-        variables["owner"] = name
-        variables["name"] = repo
+        # If CLI gets the --repo flag, looking into that particular repo.
+        query = core_query
+        variables["searchQuery"] = f"repo:{name}/{repo} {base_variable}"
         mode = "repo"
     elif name and user:
-        query = user_query
-        variables["name"] = name
+        # If CLI gets --user flag, looks into user repos.
+        query = core_query
+        variables["searchQuery"] = f"user:{name} {base_variable}"
         mode = "user"
     else:
-        query = org_query
-        variables["name"] = name
+        # if CLI gets not flag, defaults to looking into org repos.
+        query = core_query
+        variables["searchQuery"] = f"org:{name} {base_variable}"
         mode = "org"
 
     if hacktoberfest and not repo:

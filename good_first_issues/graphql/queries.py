@@ -1,5 +1,36 @@
 """GraphQL queries"""
 
+core_query = """
+query SearchGoodFirstIssues($searchQuery: String!) {
+  search(query: $searchQuery, type: ISSUE, first: 10) {
+    issueCount
+    nodes {
+      ... on Issue {
+        title
+        url
+        createdAt
+        author {
+          login
+        }
+        repository {
+          name
+          owner {
+            login
+          }
+        }
+        labels(first: 3) {
+          nodes {
+            name
+          }
+        }
+        number
+        state
+      }
+    }
+  }
+}
+"""
+
 org_query: str = """
 query getIssues($name: String!) {
   organization(login: $name) {
