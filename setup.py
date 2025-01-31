@@ -28,7 +28,7 @@ setuptools.setup(
     install_requires=requirements,
     extras_require={"dev": requirements_dev},
     entry_points={"console_scripts": ["gfi = good_first_issues.main:cli"]},
-    python_requires=">=3.6",
+    python_requires=">=3.9",
     classifiers=[
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3.9",
