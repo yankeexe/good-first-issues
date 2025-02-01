@@ -159,30 +159,6 @@ def gql_rate_limit() -> int:
     return payload["data"].get("rateLimit").get("remaining")
 
 
-def identify_limit(limit: Optional[int], all: bool) -> Optional[int]:
-    """
-    Define the value of limiter based on the values passed.
-    """
-    if limit:
-        return limit
-    elif all:
-        return None
-    else:
-        return 10
-
-
-def get_row_ids(issue_count: int, limiter: Optional[int]) -> List[int]:
-    """
-    Generate custom Row Index Column for the table.
-    Returns a Iterable.
-    """
-
-    # Check limit is None or greater than total issues fetched
-    if limiter is None or issue_count < limiter:
-        return [i for i in range(1, issue_count + 1)]
-    return [i for i in range(1, limiter + 1)]
-
-
 def web_server(html_data):
     """
     Start web server for obtained issues.
