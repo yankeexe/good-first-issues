@@ -2,6 +2,7 @@ SHELL :=/bin/bash
 CWD := $(PWD)
 TMP_PATH := $(CWD)/.tmp
 VENV_PATH := $(CWD)/venv
+PYTHON_VERSION := python3.9
 docker_image := good-first-issues
 
 .PHONY: test clean
@@ -25,7 +26,7 @@ test: # Run pytest
 	@pytest -vvv
 
 venv: # Create a virtual environment
-	@python3 -m venv venv
+	@$(PYTHON_VERSION) -m venv venv
 
 format: # Format code base with black
 	@ruff format good_first_issues
