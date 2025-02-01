@@ -2,3 +2,4 @@
 from .config import config
 from .rate_limit import rate_limit
 from .search import search
+from .version import show_version
