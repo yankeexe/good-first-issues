@@ -34,7 +34,8 @@ def org_user_pipeline(payload: Dict, mode: str) -> Tuple[Iterable, int]:
     owner_type: str = "organization" if mode == "org" else "user"
 
     # Get the edges connecting to all the repositories.
-    base_data: List = payload["data"].get(owner_type).get("repositories").get("edges")
+    # base_data: List = payload["data"].get(owner_type).get("repositories").get("edges")
+    base_data: List = payload.get("data").get("search").get("nodes")
 
     # Extract rate limit value.
     rate_limit: int = payload["data"].get("rateLimit").get("remaining")
