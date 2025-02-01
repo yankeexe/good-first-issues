@@ -118,11 +118,10 @@ def search(
 
     # Spinner
     spinner = Halo(text="Fetching repos...", spinner="dots")
-    # spinner.start()
+    spinner.start()
 
     # API Call
     response = services.caller(token, query, variables)
-    breakpoint()
 
     spinner.succeed("Repos fetched.")
 

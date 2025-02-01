@@ -151,25 +151,31 @@ def identify_mode(
         query = core_query
         variables["searchQuery"] = f"user:{name} {base_variable}"
         mode = "user"
-    else:
-        # if CLI gets not flag, defaults to looking into org repos.
-        query = core_query
-        variables["searchQuery"] = f"org:{name} {base_variable}"
-        mode = "org"
-
-    if hacktoberfest and not repo:
+    elif name and hacktoberfest and not repo:
         query = search_query
-        variables["queryString"] = "topic:hacktoberfest "
-        if name:
-            variables["queryString"] += f"user:{name}"
+        search_query_var = "topic:hacktoberfest"
+        if period:
+            search_query_var = f"{search_query_var} created:>={period} org:{name}"
+        variables["queryString"] = search_query_var
         mode = "search"
-
-    if repo and hacktoberfest:
+    elif hacktoberfest and not repo:
+        query = search_query
+        search_query_var = "topic:hacktoberfest"
+        if period:
+            search_query_var = f"{search_query_var} created:>={period} user:{name}"
+        variables["queryString"] = search_query_var
+        mode = "search"
+    elif repo and hacktoberfest:
         console.print(
             "Error: --hacktoberfest or --hf cannot be used with --repo flag:x:",
             style="bold red",
         )
         sys.exit()
+    else:
+        # if CLI gets not flag, defaults to looking into org repos.
+        query = core_query
+        variables["searchQuery"] = f"org:{name} {base_variable}"
+        mode = "org"
 
     return query, variables, mode
 
