@@ -15,15 +15,28 @@ console = Console(color_system="auto")
 
 period_help_msg = """
 Specify a time range for filtering data.
+Converts the specified time range to UTC date time.
 
-Converts the specified time range to UTC date time
+# Query all organization repos
+$ gfi search "rust-lang" --period "30 hours"
+
+# Query a specific repo in an organization
+$ gfi search "rust-lang" --repo "rust" -p "30 mins"
+
+# Query repos with the topic hacktoberfest
+$ gfi search -hf -p "100 days"
+
+# Query all user repos
+$ gfi search "yankeexe" --user -p "600 hrs"
+
+# Query a specific repo of a user
+$ gfi search "yankeexe" --user --repo "good-first-issues" -p "600 days"
 
 --period 1 m,min,mins,minutes
 
 --period 2 h,hr,hour,hours,hrs
 
 --period 3 d,day,days
-
 """
 
 
