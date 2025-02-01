@@ -226,6 +226,13 @@ $ gfi search "facebook" --all --web
 
 </details>
 
+### Show the CLI version
+
+```bash
+$ gfi version
+```
+
+
 ## Contributing
 
 For guidance on setting up a development environment and how to make a contribution to `good-first-issues`, see the [contributing guidelines](https://github.com/yankeexe/good-first-issues/blob/master/CONTRIBUTING.md).
