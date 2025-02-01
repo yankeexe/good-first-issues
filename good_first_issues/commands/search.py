@@ -45,6 +45,7 @@ Converts the specified time range to UTC date time
     "-l",
     help="Limit the number of issues to display. Defaults to 10",
     type=int,
+    default=10,
 )
 @click.option(
     "--user",
@@ -113,7 +114,7 @@ def search(
 
     # Identify the flags passed.
     query, variables, mode = services.identify_mode(
-        name, repo, user, hacktoberfest, period
+        name, repo, user, hacktoberfest, period, limit
     )
 
     # Spinner
@@ -130,10 +131,11 @@ def search(
         issues, rate_limit = services.org_user_pipeline(response, mode)
 
     if mode == "repo":
-        issues, rate_limit = services.extract_repo_issues(response)
+        issues, rate_limit = services.org_user_pipeline(response, mode)
 
     if mode == "search":
         issues, rate_limit = services.extract_search_results(response)
+        issues = issues[:limit]  # cannot set limit on the search_query directly
 
     table_headers: List = ["Title", "Issue URL"]
 
@@ -148,19 +150,16 @@ def search(
             "No good first issues found!:mask:",
             style="bold red",
         )
-    # Handle limiting the output displayed.
-    limiter = utils.identify_limit(limit, all)
 
     # Handle displaying issues on browser.
     if web:
-        html_data = tabulate(issues[:limiter], table_headers, tablefmt="html")
+        html_data = tabulate(issues, table_headers, tablefmt="html")
         return utils.web_server(html_data)
 
-    issue_count: int = len(issues)
-    row_ids: List[int] = utils.get_row_ids(issue_count, limiter)
+    row_ids = list(range(1, len(issues) + 1))
     print(
         tabulate(
-            issues[:limiter],
+            issues,
             table_headers,
             tablefmt="fancy_grid",
             showindex=row_ids,
