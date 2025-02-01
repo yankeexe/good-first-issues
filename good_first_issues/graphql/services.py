@@ -180,7 +180,6 @@ def identify_mode(
         # if CLI gets not flag, defaults to looking into org repos.
         query = core_query
         variables["searchQuery"] = f"org:{name} {base_variable}"
-        del variables["limit"]
         mode = "org"
 
     return query, variables, mode
