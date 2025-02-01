@@ -129,8 +129,26 @@ $ gfi search -hf
 
 ### Search for issues within a certain period
 
+By default, no period is set and users are shown whatever data is fetched from the GitHub API.
+
+To filter good first issues within a certain period, use the following commands:
+
 ```bash
+
+# Query all organization repos
 $ gfi search "rust-lang" -p "30 days"
+
+# Query a specific repo in an organization
+$ gfi search "rust-lang" --repo "rust" -p "30 days"
+
+# Query repos with the topic hacktoberfest
+$ gfi search -hf -p "100 days"
+
+# Query all user repos
+$ gfi search "yankeexe" --user -p "600 days"
+
+# Query a specific repo of a user
+$ gfi search "yankeexe" --user --repo "good-first-issues" -p "600 days"
 ```
 
 ```bash
