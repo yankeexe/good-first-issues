@@ -10,7 +10,7 @@ import sys
 import webbrowser
 from collections import namedtuple
 from pathlib import Path
-from typing import Dict, List, Optional, Union
+from typing import Dict, Union
 
 import click
 from halo import Halo
