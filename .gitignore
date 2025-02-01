@@ -6,7 +6,6 @@ __pycache__/
 
 # Editor specific configs
 .vim
-.vscode
 .idea
 
 # C extensions

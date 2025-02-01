@@ -15,7 +15,7 @@
 
 ## Install Good First Issues
 
-Requires Python 3.6.1 or higher.
+Requires Python 3.9 or higher.
 
 ```bash
 $ pip3 install good-first-issues --upgrade
@@ -126,6 +126,41 @@ $ gfi search --hacktoberfest
 
 $ gfi search -hf
 ```
+
+### Search for issues within a certain period
+
+By default, no period is set and users are shown whatever data is fetched from the GitHub API.
+
+To filter good first issues within a certain period, use the following commands:
+
+```bash
+
+# Query all organization repos
+$ gfi search "rust-lang" -p "30 hours"
+
+# Query a specific repo in an organization
+$ gfi search "rust-lang" --repo "rust" -p "30 mins"
+
+# Query repos with the topic hacktoberfest
+$ gfi search -hf -p "100 days"
+
+# Query all user repos
+$ gfi search "yankeexe" --user -p "600 hrs"
+
+# Query a specific repo of a user
+$ gfi search "yankeexe" --user --repo "good-first-issues" -p "600 days"
+```
+
+```bash
+# Example Usage:
+--period 1 m,min,mins,minutes
+
+--period 2 h,hr,hour,hours,hrs
+
+--period 3 d,day,days
+
+```
+
 
 > <details><summary><strong>Demo</strong></summary>
 > <img src = "https://i.imgur.com/6Ch5BFG.gif" width="700" alt="demo of timezone cli search" />

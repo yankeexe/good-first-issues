@@ -12,13 +12,12 @@ requirements = [
     "tabulate==0.9.0",
     "rich<=13.7.1",
 ]
-requirements_dev = ["pytest==8.2.2", "ruff==0.6.4", "pre-commit", "mypy"]
+requirements_dev = ["pytest==8.2.2", "ruff==0.9.4", "pre-commit", "mypy"]
 
 setuptools.setup(
     name="good-first-issues",
-    version="2.1.2",
+    version="2.1.3",
     author="Yankee Maharjan",
-    author_email="yankee.exe@gmail.com",
     url="https://github.com/yankeexe/good-first-issues",
     description="Find good first issues right from your CLI!",
     license="MIT",
@@ -28,12 +27,9 @@ setuptools.setup(
     install_requires=requirements,
     extras_require={"dev": requirements_dev},
     entry_points={"console_scripts": ["gfi = good_first_issues.main:cli"]},
-    python_requires=">=3.6",
+    python_requires=">=3.9",
     classifiers=[
         "Intended Audience :: Developers",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
