@@ -1,14 +1,14 @@
 """GraphQL queries"""
 
 core_query = """
-query SearchGoodFirstIssues($searchQuery: String!) {
+query SearchGoodFirstIssues($searchQuery: String!, $limit: Int!) {
   rateLimit {
     limit
     cost
     remaining
     resetAt
   }
-  search(query: $searchQuery, type: ISSUE, first: 10) {
+  search(query: $searchQuery, type: ISSUE, first: $limit) {
     issueCount
     nodes {
       ... on Issue {
@@ -37,75 +37,7 @@ query SearchGoodFirstIssues($searchQuery: String!) {
 }
 """
 
-org_query: str = """
-query getIssues($name: String!) {
-  organization(login: $name) {
-    repositories(first: 100) {
-      edges {
-        node {
-          name
-          issues(first: 100, states: OPEN, labels: "good first issue") {
-            edges {
-              node {
-                title
-                url
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  rateLimit {
-    remaining
-  }
-}
-"""
-
-user_query: str = """
-query getIssues ($name: String!) {
-  user(login: $name) {
-    repositories(first: 100, ownerAffiliations: OWNER) {
-      edges {
-        node {
-          name
-          issues(filterBy: {labels: "good first issue", states: OPEN}, first: 100) {
-            edges {
-              node {
-                title
-                url
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  rateLimit {
-    remaining
-  }
-}
-
-"""
-
-repo_query: str = """
-query getIssues($name: String!, $owner: String!) {
-  repository(name: $name, owner: $owner) {
-    issues(filterBy: { states: OPEN, labels: "good first issue" }, first: 100) {
-      edges {
-        node {
-          title
-          url
-        }
-      }
-    }
-  }
-  rateLimit {
-    remaining
-  }
-}
-"""
-
+# `first: 2` = Fetch only 2 issues from each repos with the topic hacktoberfest
 search_query: str = """
 query search($queryString: String!){
   search(type: REPOSITORY, query: $queryString, first: 50) {
@@ -113,7 +45,7 @@ query search($queryString: String!){
       node {
         ... on Repository {
           url
-          issues(filterBy: { states: OPEN, labels: "good first issue" }, first: 100) {
+          issues(filterBy: { states: OPEN, labels: "good first issue" }, first: 2) {
             edges {
             node {
                   title
