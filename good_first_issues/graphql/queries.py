@@ -2,6 +2,12 @@
 
 core_query = """
 query SearchGoodFirstIssues($searchQuery: String!) {
+  rateLimit {
+    limit
+    cost
+    remaining
+    resetAt
+  }
   search(query: $searchQuery, type: ISSUE, first: 10) {
     issueCount
     nodes {
