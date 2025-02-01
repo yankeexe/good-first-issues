@@ -43,11 +43,12 @@ def org_user_pipeline(payload: Dict, mode: str) -> Tuple[Iterable, int]:
     spinner.start()
 
     # Generator pipeline: Extract issue title and url.
-    pipeline: Iterable = get_issues(get_base_issues(base_data))
+    # pipeline: Iterable = get_issues(get_base_issues(base_data))
+    issues = [(data.get("title"), data.get("url")) for data in base_data]
 
     spinner.succeed("Search Complete.")
 
-    return list(pipeline), rate_limit
+    return issues, rate_limit
 
 
 def get_base_issues(data: List) -> BaseIssueEdges:
@@ -121,7 +122,7 @@ def extract_search_results(payload: Dict) -> Tuple[Iterable, int]:
 
 
 def identify_mode(
-    name: str, repo: str, user: bool, hacktoberfest: bool, period: str
+    name: str, repo: str, user: bool, hacktoberfest: bool, period: str, limit: int
 ) -> Tuple[str, Dict, str]:
     """
     Identify the mode based on arguments passed.
@@ -131,7 +132,8 @@ def identify_mode(
     2. variables for the query
     3. function(mode) to pass the above values to
     """
-    variables: Dict = dict()
+    variables: Dict = {"limit": limit}
+
     base_variable = 'label:"good first issue" is:open is:issue'
 
     if period:
@@ -142,16 +144,19 @@ def identify_mode(
         query = core_query
         variables["searchQuery"] = f"repo:{name}/{repo} {base_variable}"
         mode: str = "repo"
+
     elif name and repo:
         # If CLI gets the --repo flag, looking into that particular repo.
         query = core_query
         variables["searchQuery"] = f"repo:{name}/{repo} {base_variable}"
         mode = "repo"
+
     elif name and user:
         # If CLI gets --user flag, looks into user repos.
         query = core_query
         variables["searchQuery"] = f"user:{name} {base_variable}"
         mode = "user"
+
     elif name and hacktoberfest and not repo:
         query = search_query
         search_query_var = "topic:hacktoberfest"
@@ -159,23 +164,28 @@ def identify_mode(
             search_query_var = f"{search_query_var} created:>={period} org:{name}"
         variables["queryString"] = search_query_var
         mode = "search"
+
     elif hacktoberfest and not repo:
         query = search_query
         search_query_var = "topic:hacktoberfest"
         if period:
-            search_query_var = f"{search_query_var} created:>={period} user:{name}"
+            search_query_var = f"{search_query_var} created:>={period}"
+
         variables["queryString"] = search_query_var
-        mode = "search"
+        del variables["limit"]
+
     elif repo and hacktoberfest:
         console.print(
             "Error: --hacktoberfest or --hf cannot be used with --repo flag:x:",
             style="bold red",
         )
         sys.exit()
+
     else:
         # if CLI gets not flag, defaults to looking into org repos.
         query = core_query
         variables["searchQuery"] = f"org:{name} {base_variable}"
+        del variables["limit"]
         mode = "org"
 
     return query, variables, mode
