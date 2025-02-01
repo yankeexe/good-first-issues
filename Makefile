@@ -38,17 +38,15 @@ venv: # Create a virtual environment
 		echo -e "✅ Done.\n\n🎉 Run the following commands to activate the virtual environment:\n ➡️ source $(VENV_PATH)/bin/activate\n\nThen run the following command to install dependencies:\n ➡️ make setup"; \
 	fi
 
-format: # Format code base with black
-	@ruff format good_first_issues
+format: # Format auto-fixable linting issues
+	@ruff check good_first_issues --fix
 
-check: # Check for formatting issues with black
-	@black --check --diff .
+check: # Ruff check for formatting issues
+	@ruff check .
+	@echo "✅ Check complete!"
 
 setup: # Setup local development environment
 	@pip install -e .[dev]
-
-lint: # Run linters
-	@ruff format --check good_first_issues
 
 help: # Show this help
 	@egrep -h '\s#\s' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?# "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
