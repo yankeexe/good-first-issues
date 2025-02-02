@@ -16,7 +16,7 @@ requirements_dev = ["pytest==8.2.2", "ruff==0.9.4", "pre-commit", "mypy"]
 
 setuptools.setup(
     name="good-first-issues",
-    version="2.1.4",
+    version="2.1.5",
     author="Yankee Maharjan",
     url="https://github.com/yankeexe/good-first-issues",
     description="Find good first issues right from your CLI!",
