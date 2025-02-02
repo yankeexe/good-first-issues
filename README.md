@@ -118,6 +118,10 @@ $ gfi search "yankeexe" --repo "good-first-issues"
 $ gfi search --hacktoberfest
 
 $ gfi search -hf
+
+$ gfi search -hf --period "30 days"
+
+$ gfi search -hf --limit 10 --period "48 hours"
 ```
 
 > <details><summary><strong>Demo</strong></summary>
@@ -125,34 +129,6 @@ $ gfi search -hf
 
 </details>
 
-#### Query all repos with topic 'hacktoberfest' in an organization or in a user profile
-
-Query all repos with topic 'hacktoberfest' in an organization.
-
-```bash
-$ gfi search "facebook" --hacktoberfest
-```
-
-```bash
-$ gfi search "yankeexe" --user -hf
-```
-
-> <details><summary><strong>Demo</strong></summary>
-> <img src = "https://i.imgur.com/Kj6lEMN.gif" width="700" alt="demo of timezone cli search" />
-
-</details>
-
-Query all repos with topic 'hacktoberfest' in a user profile.
-`--user` flag not required here.
-
-```bash
-$ gfi search "yankeexe" --hacktoberfest
-```
-
-> <details><summary><strong>Demo</strong></summary>
-> <img src = "https://i.imgur.com/vrgr8ju.gif" width="700" alt="demo of timezone cli search" />
-
-</details>
 
 ### 📏 Search for issues within a certain period
 
