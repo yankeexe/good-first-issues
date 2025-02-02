@@ -6,9 +6,9 @@
 <p align="center"><strong>Find good first issues right from your CLI!</strong></p>
 
 <p align="center">
-<img src="https://img.shields.io/pypi/v/good-first-issues" />
-<img src="https://img.shields.io/pypi/pyversions/good-first-issues" />
-<img src="https://img.shields.io/pypi/l/good-first-issues"/>
+<img src="https://img.shields.io/pypi/v/good-first-issues?style=flat-square&color=black"/>
+<img src="https://img.shields.io/pypi/pyversions/good-first-issues?style=flat-square&color=black" />
+<img src="https://img.shields.io/pypi/l/good-first-issues?style=flat-square&color=black"/>
 <img src="https://static.pepy.tech/badge/good-first-issues"/>
 
 </p>
