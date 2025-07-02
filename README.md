@@ -32,7 +32,7 @@ The CLI uses the alias `gfi` to run commands.
   - [🏢 Query all repos in an organization](#-query-all-repos-in-an-organization)
   - [📦 Query a single repo in an organization](#-query-a-single-repo-in-an-organization)
   - [👨‍💻 Query all repos in a user profile](#-query-all-repos-in-a-user-profile)
-  - [📦 Query a single repo in a user profile.](#-query-a-single-repo-in-a-user-profile)
+  - [📦 Query a single repo in a user profile](#-query-a-single-repo-in-a-user-profile)
   - [🐙 Query all repos with topic `hacktoberfest`](#-query-all-repos-with-topic-hacktoberfest)
     - [Query all repos with topic 'hacktoberfest' in an organization or in a user profile](#query-all-repos-with-topic-hacktoberfest-in-an-organization-or-in-a-user-profile)
   - [📏 Search for issues within a certain period](#-search-for-issues-within-a-certain-period)
@@ -57,7 +57,7 @@ $ gfi config
 
 Token is stored locally on `/home/<username>/.gfi/good-first-issues` file.
 
-**Token in envrionment variable:**
+**Token in environment variable:**
 
 Store the token with the name `GFITOKEN` in your environment.
 
@@ -98,7 +98,7 @@ $ gfi search "yankeexe" --user
 
 </details>
 
-### 📦 Query a single repo in a user profile.
+### 📦 Query a single repo in a user profile
 
 `--user` flag not required here.
 
