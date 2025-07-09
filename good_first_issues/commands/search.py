@@ -170,14 +170,43 @@ def search(
         return utils.web_server(html_data)
 
     row_ids = list(range(1, len(issues) + 1))
-    print(
-        tabulate(
-            issues,
-            table_headers,
-            tablefmt="fancy_grid",
-            showindex=row_ids,
-        )
-    )
+# from textwrap import shorten  # Or use wrap if you prefer line breaks
 
-    console.print(f"Remaining requests:dash:: {rate_limit}", style="bold green")
-    console.print("Happy Hacking :tada::zap::rocket:", style="bold blue")
+# # Process and format issue titles
+# for issue in issues:
+#     issue["Title"] = shorten(issue["Title"], width=50, placeholder="...")  # Use wrap if needed
+
+
+
+# print(
+
+#         tabulate(
+#             issues,
+#             table_headers,
+#             tablefmt="fancy_grid",
+#             showindex=row_ids,
+#         )
+#     )
+from textwrap import wrap  # Import for adding line breaks
+
+# Wrap issue titles to a maximum width of 50 characters
+for issue in issues:
+    issue["Title"] = "\n".join(wrap(issue["Title"], width=50))
+
+print(
+    tabulate(
+        issues,
+        table_headers,
+        tablefmt="fancy_grid",
+        showindex=row_ids,
+    )
+)
+#     from textwrap import shorten  # Or use wrap if you prefer line breaks
+
+# # Process and format issue titles
+# for issue in issues:
+#     issue["Title"] = shorten(issue["Title"], width=50, placeholder="...")  # Use wrap if needed
+
+
+console.print(f"Remaining requests:dash:: {rate_limit}", style="bold green")
+console.print("Happy Hacking :tada::zap::rocket:", style="bold blue")
