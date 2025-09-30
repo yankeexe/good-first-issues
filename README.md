@@ -19,6 +19,10 @@
 
 ```bash
 $ pip install good-first-issues --upgrade
+
+# Using uvx
+
+$ uvx --from good-first-issues gfi
 ```
 
 The CLI uses the alias `gfi` to run commands.
