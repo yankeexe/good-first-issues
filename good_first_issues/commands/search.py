@@ -12,7 +12,6 @@ from good_first_issues.utils import ParsedDuration, parse_period
 
 console = Console(color_system="auto")
 
-
 period_help_msg = """
 Specify a time range for filtering data.
 Converts the specified time range to UTC date time.
@@ -33,9 +32,7 @@ $ gfi search "yankeexe" --user -p "600 hrs"
 $ gfi search "yankeexe" --user --repo "good-first-issues" -p "600 days"
 
 --period 1 m,min,mins,minutes
-
 --period 2 h,hr,hour,hours,hrs
-
 --period 3 d,day,days
 """
 
@@ -93,24 +90,18 @@ def search(
 
     Usage:
 
-    gfi search <repo-owner/org-name>
+    gfi search <repo-owner>
 
     ➡️ repo owner
-
         gfi search "yankeexe" --user
 
     ➡️ org name
-
         gfi search "ollama"
 
     ➡️ search in a particular repo
-
         gfi search "yankeexe" --repo "good-first-issues"
-
         gfi search "ollama" --repo "ollama-python"
-
     """
-
     if name is None and hacktoberfest is False:
         utils.print_help_msg(search)
         sys.exit()
@@ -136,7 +127,6 @@ def search(
 
     # API Call
     response = services.caller(token, query, variables)
-
     spinner.succeed("Repos fetched.")
 
     # Data Filtering
@@ -158,7 +148,6 @@ def search(
             f"Remaining requests:dash:: {rate_limit}",
             style="bold green",
         )
-
         return console.print(
             "No good first issues found!:mask:",
             style="bold red",
@@ -169,10 +158,13 @@ def search(
         html_data = tabulate(issues, table_headers, tablefmt="html")
         return utils.web_server(html_data)
 
-    row_ids = list(range(1, len(issues) + 1))
+    # Format issues with smart line breaking for better table display
+    formatted_issues = utils.format_issues_for_display(issues)
+    row_ids = list(range(1, len(formatted_issues) + 1))
+    
     print(
         tabulate(
-            issues,
+            formatted_issues,
             table_headers,
             tablefmt="fancy_grid",
             showindex=row_ids,
