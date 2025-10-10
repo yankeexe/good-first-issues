@@ -1,5 +1,7 @@
 import sys
 from typing import Iterable, List, Optional, Union
+import shutil
+import textwrap
 
 import click
 from halo import Halo
@@ -11,7 +13,6 @@ from good_first_issues.graphql import services
 from good_first_issues.utils import ParsedDuration, parse_period
 
 console = Console(color_system="auto")
-
 
 period_help_msg = """
 Specify a time range for filtering data.
@@ -89,28 +90,8 @@ def search(
     hacktoberfest: bool,
     period: str,
 ):
-    """Search for good first issues in organizations or user repositories.
-
-    Usage:
-
-    gfi search <repo-owner/org-name>
-
-    ➡️ repo owner
-
-        gfi search "yankeexe" --user
-
-    ➡️ org name
-
-        gfi search "ollama"
-
-    ➡️ search in a particular repo
-
-        gfi search "yankeexe" --repo "good-first-issues"
-
-        gfi search "ollama" --repo "ollama-python"
-
-    """
-
+    """Search for good first issues in organizations or user repositories."""
+    
     if name is None and hacktoberfest is False:
         utils.print_help_msg(search)
         sys.exit()
@@ -136,19 +117,16 @@ def search(
 
     # API Call
     response = services.caller(token, query, variables)
-
     spinner.succeed("Repos fetched.")
 
     # Data Filtering
     if mode == "org" or mode == "user":
         issues, rate_limit = services.org_user_pipeline(response, mode)
-
-    if mode == "repo":
+    elif mode == "repo":
         issues, rate_limit = services.org_user_pipeline(response, mode)
-
-    if mode == "search":
+    elif mode == "search":
         issues, rate_limit = services.extract_search_results(response)
-        issues = issues[:limit]  # cannot set limit on the search_query directly
+        issues = issues[:limit]
 
     table_headers: List = ["Title", "Issue URL"]
 
@@ -158,7 +136,6 @@ def search(
             f"Remaining requests:dash:: {rate_limit}",
             style="bold green",
         )
-
         return console.print(
             "No good first issues found!:mask:",
             style="bold red",
@@ -168,6 +145,17 @@ def search(
     if web:
         html_data = tabulate(issues, table_headers, tablefmt="html")
         return utils.web_server(html_data)
+
+    # -------------------------------
+    # Terminal display fix: wrap long titles
+    terminal_width = shutil.get_terminal_size((80, 20)).columns
+    max_title_width = min(terminal_width // 2, 50)  # maximum chars per line for title
+
+    for issue in issues:
+        wrapped_lines = textwrap.wrap(issue["Title"], width=max_title_width)
+        # Join wrapped lines with newline so tabulate can handle multiline cells
+        issue["Title"] = "\n".join(wrapped_lines)
+    # -------------------------------
 
     row_ids = list(range(1, len(issues) + 1))
     print(
