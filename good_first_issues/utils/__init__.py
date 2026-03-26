@@ -52,11 +52,11 @@ def parse_period(duration: str) -> ParsedDuration:
     """
     pattern = r"^(?P<Period>\d+)\s?(?P<Duration>m|min|mins|minutes|h|hr|hrs|hours|d|day|days)?$"
     regex = re.compile(pattern)
-    match = regex.match(duration)
+    match = regex.match(duration.strip())
 
     if not match:
         print(
-            "❌ Invalid status duration\nUse 'gfi search --help for  more information.",
+            "❌ Invalid status duration\nUse 'gfi search --help' for more information.",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -70,7 +70,7 @@ def parse_period(duration: str) -> ParsedDuration:
 
     if not duration_type:
         print(
-            "Invalid duration.\nUse 'gfi search --help for  more information.",
+            "Invalid duration.\nUse 'gfi search --help' for more information.",
             file=sys.stderr,
         )
         sys.exit(1)
