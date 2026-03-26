@@ -15,6 +15,17 @@
 
 ## 📦 Installation
 
+## ⚡ Quick Start
+
+After installing the package, follow these steps to get started quickly:
+
+### Configure your GitHub token
+
+```bash
+gfi config
+
+
+
 > Requires **Python 3.9 or higher**.
 
 ```bash
