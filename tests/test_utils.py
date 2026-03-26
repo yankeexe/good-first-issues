@@ -92,3 +92,11 @@ def test_parse_period_error_message(capsys):
         parse_period("10")
     captured = capsys.readouterr()
     assert "Invalid duration" in captured.err
+
+
+def test_parse_period_with_whitespace():
+    result = parse_period("10m ")
+    assert result.absolute_period == 10
+
+    result = parse_period(" 5h")
+    assert result.absolute_period == 300
