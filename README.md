@@ -207,6 +207,9 @@ $ gfi search "facebook" --all --web
 ```bash
 $ gfi version
 ```
+## 💡 Beginner Tip
+If you're new to open source, start by looking for issues labeled "good first issue". Always read the CONTRIBUTING.md before making a pull request.
+---
 
 ## 🔨 Contributing
 
