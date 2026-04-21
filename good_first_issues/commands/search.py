@@ -78,6 +78,19 @@ $ gfi search "yankeexe" --user --repo "good-first-issues" -p "600 days"
     is_flag=True,
 )
 @click.option("--period", "-p", help=period_help_msg)
+@click.option(
+    "--language",
+    "--lang",
+    "-lang",
+    help="Filter issues by programming language (e.g., python, javascript)",
+    type=str,
+)
+@click.option(
+    "--keyword",
+    "-k",
+    help="Filter issues by keyword in title or description",
+    type=str,
+)
 @click.argument("name", required=False)
 def search(
     name: str,
@@ -88,6 +101,8 @@ def search(
     all: bool,
     hacktoberfest: bool,
     period: str,
+    language: str,
+    keyword: str,
 ):
     """Search for good first issues in organizations or user repositories.
 
@@ -127,7 +142,7 @@ def search(
 
     # Identify the flags passed.
     query, variables, mode = services.identify_mode(
-        name, repo, user, hacktoberfest, period, limit
+        name, repo, user, hacktoberfest, period, limit, language, keyword
     )
 
     # Spinner
