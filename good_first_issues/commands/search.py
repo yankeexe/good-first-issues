@@ -78,6 +78,18 @@ $ gfi search "yankeexe" --user --repo "good-first-issues" -p "600 days"
     is_flag=True,
 )
 @click.option("--period", "-p", help=period_help_msg)
+@click.option(
+    "--language",
+    "-L",
+    help="Filter issues by programming language (e.g., Python, JavaScript)",
+    type=str,
+)
+@click.option(
+    "--keyword",
+    "-k",
+    help="Filter issues by keyword in title or description",
+    type=str,
+)
 @click.argument("name", required=False)
 def search(
     name: str,
@@ -88,6 +100,8 @@ def search(
     all: bool,
     hacktoberfest: bool,
     period: str,
+    language: str,
+    keyword: str,
 ):
     """Search for good first issues in organizations or user repositories.
 
@@ -127,7 +141,7 @@ def search(
 
     # Identify the flags passed.
     query, variables, mode = services.identify_mode(
-        name, repo, user, hacktoberfest, period, limit
+        name, repo, user, hacktoberfest, period, limit, language
     )
 
     # Spinner
@@ -149,6 +163,11 @@ def search(
     if mode == "search":
         issues, rate_limit = services.extract_search_results(response)
         issues = issues[:limit]  # cannot set limit on the search_query directly
+
+    # Client-side filtering: keyword search in title or URL
+    if keyword:
+        kw_lower = keyword.lower()
+        issues = [issue for issue in issues if kw_lower in issue[0].lower() or (len(issue) > 1 and kw_lower in issue[1].lower())]
 
     table_headers: List = ["Title", "Issue URL"]
 

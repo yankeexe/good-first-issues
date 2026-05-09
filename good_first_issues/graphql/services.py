@@ -117,7 +117,7 @@ def extract_search_results(payload: Dict) -> Tuple[Iterable, int]:
 
 
 def identify_mode(
-    name: str, repo: str, user: bool, hacktoberfest: bool, period: str, limit: int
+    name: str, repo: str, user: bool, hacktoberfest: bool, period: str, limit: int, language: str = None
 ) -> Tuple[str, Dict, str]:
     """
     Identify the mode based on arguments passed.
@@ -130,6 +130,9 @@ def identify_mode(
     variables: Dict = {"limit": limit}
 
     base_variable = 'label:"good first issue" is:open is:issue'
+
+    if language:
+        base_variable = f'{base_variable} language:{language}'
 
     if period:
         base_variable = f"{base_variable} created:>={period}"
