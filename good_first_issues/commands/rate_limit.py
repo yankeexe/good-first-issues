@@ -13,4 +13,4 @@ def rate_limit():
     """
     rate_limit = utils.gql_rate_limit()
 
-    console.print(f"Remaining requests:dash:: {rate_limit}", style="bold green")
+    console.print(f"Remaining requests: :bar_chart: {rate_limit}", style="bold green")

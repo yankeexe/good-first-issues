@@ -155,7 +155,7 @@ def search(
     # No good first issues found.
     if not issues:
         console.print(
-            f"Remaining requests:dash:: {rate_limit}",
+            f"Remaining requests: :bar_chart: {rate_limit}",
             style="bold green",
         )
 
@@ -179,5 +179,5 @@ def search(
         )
     )
 
-    console.print(f"Remaining requests:dash:: {rate_limit}", style="bold green")
+    console.print(f"Remaining requests: :bar_chart: {rate_limit}", style="bold green")
     console.print("Happy Hacking :tada::zap::rocket:", style="bold blue")
