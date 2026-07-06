@@ -78,6 +78,14 @@ $ gfi search "yankeexe" --user --repo "good-first-issues" -p "600 days"
     is_flag=True,
 )
 @click.option("--period", "-p", help=period_help_msg)
+@click.option(
+    "--format",
+    "-f",
+    "output_format",
+    help="Output format: table (default), json, csv",
+    type=click.Choice(["table", "json", "csv"]),
+    default="table",
+)
 @click.argument("name", required=False)
 def search(
     name: str,
@@ -88,6 +96,7 @@ def search(
     all: bool,
     hacktoberfest: bool,
     period: str,
+    output_format: str,
 ):
     """Search for good first issues in organizations or user repositories.
 
@@ -169,15 +178,25 @@ def search(
         html_data = tabulate(issues, table_headers, tablefmt="html")
         return utils.web_server(html_data)
 
-    row_ids = list(range(1, len(issues) + 1))
-    print(
-        tabulate(
-            issues,
-            table_headers,
-            tablefmt="fancy_grid",
-            showindex=row_ids,
+    if output_format == "json":
+        import json as _json
+        data = [{"title": t, "url": u} for t, u in issues]
+        print(_json.dumps(data, indent=2))
+    elif output_format == "csv":
+        import csv as _csv
+        writer = _csv.writer(sys.stdout)
+        writer.writerow(["Title", "Issue URL"])
+        writer.writerows(issues)
+    else:
+        row_ids = list(range(1, len(issues) + 1))
+        print(
+            tabulate(
+                issues,
+                table_headers,
+                tablefmt="fancy_grid",
+                showindex=row_ids,
+            )
         )
-    )
 
     console.print(f"Remaining requests:dash:: {rate_limit}", style="bold green")
     console.print("Happy Hacking :tada::zap::rocket:", style="bold blue")
