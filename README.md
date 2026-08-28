@@ -211,3 +211,4 @@ $ gfi version
 ## 🔨 Contributing
 
 For guidance on setting up a development environment and how to make a contribution to `good-first-issues`, see the [contributing guidelines](https://github.com/yankeexe/good-first-issues/blob/master/CONTRIBUTING.md).
+update README.md
