@@ -255,7 +255,7 @@ def caller(token: Union[str, bool], query: str, variables: Dict) -> Dict:
     except:
         spinner.fail("Error")
         console.print(
-            "An error has occcured. Please try again later or open an issue on GitHub.:x:",  # noqa: E501
+            "An error has occurred. Please try again later or open an issue on GitHub.:x:",  # noqa: E501
             style="bold red",
         )
 
