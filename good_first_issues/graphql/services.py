@@ -1,5 +1,5 @@
 """Services for GraphQL mode"""
-
+import textwrap
 import sys
 from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
@@ -65,7 +65,10 @@ def get_issues(issues: BaseIssueEdges) -> Iterator[Tuple[str, str]]:
     flat_list: List = [item for sublist in issues for item in sublist]
 
     for issue in flat_list:
-        yield issue.get("node").get("title"), issue.get("node").get("url")
+        title = issue.get("node").get("title")
+        wrapped_title = textwrap.fill(title, width=40)
+
+        yield wrapped_title, issue.get("node").get("url")
 
 
 def extract_repo_issues(
