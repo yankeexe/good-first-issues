@@ -1,4 +1,5 @@
 import sys
+import textwrap
 from typing import Iterable, List, Optional, Union
 
 import click
@@ -169,10 +170,15 @@ def search(
         html_data = tabulate(issues, table_headers, tablefmt="html")
         return utils.web_server(html_data)
 
-    row_ids = list(range(1, len(issues) + 1))
+    wrapped_issues = [
+        [textwrap.fill(issue[0], width=40), issue[1]]
+        for issue in issues
+    ]
+
+    row_ids = list(range(1, len(wrapped_issues) + 1))
     print(
         tabulate(
-            issues,
+            wrapped_issues,
             table_headers,
             tablefmt="fancy_grid",
             showindex=row_ids,
