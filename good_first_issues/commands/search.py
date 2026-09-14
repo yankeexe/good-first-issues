@@ -33,9 +33,7 @@ $ gfi search "yankeexe" --user -p "600 hrs"
 $ gfi search "yankeexe" --user --repo "good-first-issues" -p "600 days"
 
 --period 1 m,min,mins,minutes
-
 --period 2 h,hr,hour,hours,hrs
-
 --period 3 d,day,days
 """
 
@@ -78,6 +76,20 @@ $ gfi search "yankeexe" --user --repo "good-first-issues" -p "600 days"
     is_flag=True,
 )
 @click.option("--period", "-p", help=period_help_msg)
+@click.option(
+    "--language",
+    "-lang",
+    help="Filter issues by programming language (e.g., Python, JavaScript)",
+    type=str,
+    default=None,
+)
+@click.option(
+    "--keyword",
+    "-k",
+    help="Filter issues by keyword in title or description",
+    type=str,
+    default=None,
+)
 @click.argument("name", required=False)
 def search(
     name: str,
@@ -88,6 +100,8 @@ def search(
     all: bool,
     hacktoberfest: bool,
     period: str,
+    language: str,
+    keyword: str,
 ):
     """Search for good first issues in organizations or user repositories.
 
@@ -96,19 +110,23 @@ def search(
     gfi search <repo-owner/org-name>
 
     ➡️ repo owner
-
         gfi search "yankeexe" --user
 
     ➡️ org name
-
         gfi search "ollama"
 
     ➡️ search in a particular repo
-
         gfi search "yankeexe" --repo "good-first-issues"
-
         gfi search "ollama" --repo "ollama-python"
 
+    ➡️ filter by language
+        gfi search "facebook" --language "Python"
+
+    ➡️ filter by keyword
+        gfi search "rust-lang" --keyword "documentation"
+
+    ➡️ combine filters
+        gfi search "microsoft" --language "JavaScript" --keyword "API"
     """
 
     if name is None and hacktoberfest is False:
@@ -118,7 +136,7 @@ def search(
     issues: Optional[Iterable] = None
     rate_limit: int = 0
 
-    # Check for GitHub Token.
+    # Check for GitHub Token
     token: Union[str, bool] = utils.check_credential()
 
     if period:
@@ -136,11 +154,10 @@ def search(
 
     # API Call
     response = services.caller(token, query, variables)
-
     spinner.succeed("Repos fetched.")
 
     # Data Filtering
-    if mode == "org" or mode == "user":
+    if mode in ["org", "user"]:
         issues, rate_limit = services.org_user_pipeline(response, mode)
 
     if mode == "repo":
@@ -150,25 +167,43 @@ def search(
         issues, rate_limit = services.extract_search_results(response)
         issues = issues[:limit]  # cannot set limit on the search_query directly
 
+    # Apply keyword filter
+    if keyword:
+        filtered_issues = []
+        for issue in issues:
+            title = issue[0].lower()
+            if keyword.lower() in title:
+                filtered_issues.append(issue)
+        issues = filtered_issues
+
+    # Apply language filter
+    if language:
+        filtered_issues = []
+        for issue in issues:
+            title = issue[0].lower()
+            if language.lower() in title:
+                filtered_issues.append(issue)
+        issues = filtered_issues
+
     table_headers: List = ["Title", "Issue URL"]
 
-    # No good first issues found.
+    # No good first issues found
     if not issues:
         console.print(
             f"Remaining requests:dash:: {rate_limit}",
             style="bold green",
         )
-
         return console.print(
             "No good first issues found!:mask:",
             style="bold red",
         )
 
-    # Handle displaying issues on browser.
+    # Display issues in browser
     if web:
         html_data = tabulate(issues, table_headers, tablefmt="html")
         return utils.web_server(html_data)
 
+    # Display issues in terminal
     row_ids = list(range(1, len(issues) + 1))
     print(
         tabulate(
@@ -180,4 +215,17 @@ def search(
     )
 
     console.print(f"Remaining requests:dash:: {rate_limit}", style="bold green")
+
+    # Show applied filters
+    if keyword or language:
+        filter_info = []
+        if language:
+            filter_info.append(f"language: {language}")
+        if keyword:
+            filter_info.append(f"keyword: {keyword}")
+        console.print(
+            f"Filters applied: {', '.join(filter_info)}",
+            style="bold cyan",
+        )
+
     console.print("Happy Hacking :tada::zap::rocket:", style="bold blue")
