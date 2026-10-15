@@ -176,6 +176,7 @@ def search(
             table_headers,
             tablefmt="fancy_grid",
             showindex=row_ids,
+            maxcolwidths=[None, 30, None],
         )
     )
 
